@@ -1,0 +1,87 @@
+@use "sass:map";
+
+// Bootstrap color customization
+$primary: #012C56;
+$secondary: #0664B6;
+$accent: #FFC436;
+$danger: #EB5757;
+$light: #FBFAF6;
+$info: #56CCF2;
+
+//Customized color palette
+$paper-background: #FFF9DE;
+$palette-variants: (
+    "primary-2": #003F7B,
+    "primary-3": #1961A6,
+    "secondary-2": #0E75C9,
+    "secondary-3": #48ADF2,
+    "accent-2": #FED03C,
+    "accent-3": #FDDC67
+);
+
+
+//Variants map
+$gray-variants: (
+    "100": #E0DDCC,
+    "300": #C4C0AB,
+    "500": #A29E8B,
+    "700": #464644,
+    "900": #323230
+);
+
+$subjects: (
+    "1": #05C9D5,
+    "2": #E4400C,
+    "3": #CBBB29,
+    "4": #05C066,
+    "5": #1C4FD1,
+    "6": #BF07AD,
+    "7": #FF3C9A,
+    "8": #EF2C2C
+);
+
+
+
+
+//font-customization
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.font-lato{
+    font-family: 'Lato', sans-serif;
+}
+
+// Text color and background of mapped variables
+@each $variant, $color in $gray-variants{
+    .text-gray-#{$variant}{
+        color: $color;
+    }
+
+    .bg-gray-#{$variant}{
+        background-color: $color;
+    }
+}
+
+@each $variant, $color in $subjects{
+    .text-subject-#{$variant}{
+        color: $color;
+    }
+
+    .bg-subject-#{$variant}{
+        background-color: $color;
+    }
+}
+
+@each $variant, $color in $palette-variants{
+    .text-#{$variant}{
+        color: $color;
+    }
+
+    .bg-#{$variant}{
+        background-color: $color;
+    }
+}
