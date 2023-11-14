@@ -11984,6 +11984,10 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+.bg-paper {
+  background-color: #FFF9DE;
+}
+
 .text-gray-100 {
   color: #E0DDCC;
 }
@@ -12025,11 +12029,11 @@ body {
 }
 
 .text-subject-1 {
-  color: #05C9D5;
+  color: #13B9C4;
 }
 
 .bg-subject-1 {
-  background-color: #05C9D5;
+  background-color: #13B9C4;
 }
 
 .text-subject-2 {
@@ -12134,4 +12138,47 @@ body {
 
 .bg-accent-3 {
   background-color: #FDDC67;
+}
+
+.heading-box h1, .heading-box .h1,
+.heading-box h2,
+.heading-box .h2,
+.heading-box h3,
+.heading-box .h3,
+.heading-box h4,
+.heading-box .h4,
+.heading-box h5,
+.heading-box .h5,
+.heading-box h6,
+.heading-box .h6 {
+  font-weight: bold;
+}
+
+.btn-link {
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  color: #1961A6;
+  background: rgba(25, 97, 166, 0.1);
+  border: 1px solid rgba(25, 97, 166, 0.8);
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-link:hover {
+  background: rgba(25, 97, 166, 0.75);
+  color: #fff;
+}
+
+@media (min-width: 992px) {
+  .offcanvas-lg {
+    position: fixed;
+  }
+  .box-canvas {
+    width: 300px;
+  }
+}
+@media (min-width: 1200px) {
+  .box-canvas {
+    width: 350px;
+  }
 }/*# sourceMappingURL=app.css.map */

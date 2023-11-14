@@ -1,0 +1,74 @@
+/* Subject bar styles */
+
+.subject{
+    width: max-content;
+    padding: 1rem;
+    margin: 0.25rem 0;
+    border: 1px solid #fff;
+    border-radius: 0 0.5rem 0.5rem 0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.subject h4{
+    margin: 0;
+}
+
+.subject-content{
+    flex: 1 1 auto;
+    border-radius: 0.5rem;
+    padding: 2rem;
+}
+
+/* Notes styles */
+
+.note{
+    max-width: 40%;
+    border-radius: 0.125rem 0.125rem 0.75rem 0.125rem;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 0.625rem;
+    color: #f8f8f8;
+    cursor: pointer;
+}
+
+/* TASKS STYLES */
+.task{
+    border: 1px solid rgb(201, 201, 201);
+}
+
+/* Schedule styles */
+.schedule-item{
+    border-radius: 0.5rem;
+    color: #fff;
+}
+
+.schedule-item p{
+    font-weight: bold;
+}
+
+
+
+@media (max-width: 768px) {
+    .subject{
+        padding: 0.5rem;
+        /* writing-mode: vertical-lr; */
+    }
+
+    .subject-content{
+        padding: 0.5rem;
+    }
+
+    
+    .note{
+        max-width: 85%;
+        margin: initial;
+    }
+}
+
+@media (max-width: 1200px){
+    .subject{
+        writing-mode: vertical-lr;
+    }
+}

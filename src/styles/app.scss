@@ -30,7 +30,7 @@ $palette-variants: (
         );
         
 $subjects: (
-    "1": #05C9D5,
+    "1": #13B9C4,
     "2": #E4400C,
     "3": #CBBB29,
     "4": #05C066,
@@ -51,6 +51,10 @@ $subjects: (
     
     .font-lato{
         font-family: 'Lato', sans-serif;
+    }
+
+    .bg-paper{
+        background-color: $paper-background;
     }
     
     // Text color and background of mapped variables
@@ -81,5 +85,51 @@ $subjects: (
     
     .bg-#{$variant}{
         background-color: $color;
+    }
+}
+
+
+//App customized styles
+.heading-box h1,
+.heading-box h2,
+.heading-box h3,
+.heading-box h4,
+.heading-box h5,
+.heading-box h6{
+    font-weight: bold;
+}
+
+.btn-link{
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    color: map-get($palette-variants, "primary-3");
+    background: transparentize(map-get($palette-variants, "primary-3"), 0.9);
+    border: 1px solid transparentize(map-get($palette-variants, "primary-3"), 0.2);
+    text-decoration: none;
+    cursor: pointer;
+    
+    &:hover{
+        background: transparentize(map-get($palette-variants, "primary-3"), 0.25);
+        color: $white;
+    }
+}
+
+
+@media (min-width: 992px){
+    .offcanvas-lg{
+        position: fixed;
+    }
+
+    .box-canvas{
+        width: 300px;
+    }
+
+}
+
+
+@media (min-width: 1200px){
+    .box-canvas{
+        width: 350px;
     }
 }

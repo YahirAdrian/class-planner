@@ -4,7 +4,33 @@
   width: 100%;
 }
 
-.offcanvas-md{
-  min-width: 350px;
+.offcanvas-lg{
+  min-width: 300px;
   padding-top: 16px;
+  box-shadow: 8px 4px 6px 0px rgba(61, 107, 157, 0.15);
 }
+
+@media (min-width: 1200px){
+  .offcanvas-lg{
+    min-width: 350px;
+  }
+}
+
+/* .bottom{
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+
+.bottom .actions-box{
+  flex: 0 1 auto;
+}
+
+.bottom .navigation{
+  flex: 1 1 auto;
+}
+
+.bottom .aside-footer{
+  flex: 0 1 40px;
+} */

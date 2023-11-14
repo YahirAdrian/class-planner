@@ -11,7 +11,7 @@ export default function Layout() {
 
   return (
     <div className=' d-flex h-100 '>
-      <aside className=''>
+      <aside className='aside'>
         <Aside 
           handleClose={handleClose}
           show={show}
@@ -19,14 +19,17 @@ export default function Layout() {
 
       </aside>
 
-      <main className='w-100'>
+      <div className="w-100">
         <Header 
           handleShow={handleShow}
         />
-        <h1>Layout</h1>
 
-      </main>
-      <Outlet />
+        <main className='main-content bg-paper p-md-5 p-1 p-md-2'>
+          <Outlet />
+
+        </main>
+
+      </div>
     </div>
   )
 }

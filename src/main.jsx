@@ -7,58 +7,51 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+
 import Layout from './routes/Layout.jsx';
+import Agenda from './routes/Agenda.jsx'
+import Calendar from './routes/Calendar.jsx'
+import Panel from './routes/Panel.jsx'
+import Settings from './routes/Settings.jsx'
+import Tasks from './routes/Tasks.jsx'
+import Schedule from './routes/Schedule.jsx';
 
 const router = createBrowserRouter([
+  {
+    path: '/about',
+    element: <h1>About</h1>
+  },
   {
     path: "/",
     element: <Layout />,
     children:[
       {
         index: true,
-        path: '/panel',
-        element: <h1>Panel</h1>
+        path: '/',
+        element: <Panel />
       },
       {
         path:'/tasks',
-        element: <h1>Tasks</h1>
+        element: <Tasks />
       },
       {
         path:'/calendar',
-        element: <h1>Calendar</h1>
+        element: <Calendar />
       },
       {
         path:'/agenda',
-        element: <h1>Agenda</h1>
+        element: <Agenda />
+      },
+      {
+        path:'/schedule',
+        element: <Schedule />
       },
       {
         path:'/settings',
-        element: <h1>Settings</h1>
+        element: <Settings />
       }
     ]
   }
-  
-
-  /* {
-    path:'/panel',
-    element: <h1>Panel</h1>
-  },
-  {
-    path:'/tasks',
-    element: <h1>Tasks</h1>
-  },
-  {
-    path:'/calendar',
-    element: <h1>Calendar</h1>
-  },
-  {
-    path:'/agenda',
-    element: <h1>Agenda</h1>
-  },
-  {
-    path:'/settings',
-    element: <h1>Settings</h1>
-  }, */
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
