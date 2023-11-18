@@ -4,7 +4,7 @@ import editIcon from '../../assets/icons/edit.svg'
 import removeIcon from '../../assets/icons/remove.svg'
 export default function Task() {
   return (
-    <div className='task mb-2 p-2 p-md-3 d-flex align-items-center justify-content-between'>
+    <div className='task mb-3 p-2 p-md-3 d-flex align-items-center justify-content-between'>
     
       <div>
         <input className='me-2' type="checkbox" title="Complete task: Task name" id="checkbox-task"/>

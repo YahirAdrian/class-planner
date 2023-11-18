@@ -10,7 +10,7 @@ import {
 
 import Layout from './routes/Layout.jsx';
 import Agenda from './routes/Agenda.jsx'
-import Calendar from './routes/Calendar.jsx'
+import Notes from './routes/Notes.jsx'
 import Panel from './routes/Panel.jsx'
 import Settings from './routes/Settings.jsx'
 import Tasks from './routes/Tasks.jsx'
@@ -35,8 +35,8 @@ const router = createBrowserRouter([
         element: <Tasks />
       },
       {
-        path:'/calendar',
-        element: <Calendar />
+        path:'/notes',
+        element: <Notes />
       },
       {
         path:'/agenda',

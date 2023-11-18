@@ -1,7 +1,7 @@
 
 export default function SubjectBar() {
   return (
-      <aside className="">
+      <aside className="position-sticky ">
         <div className="subject bg-subject-1">
           <h4 className="fs-6">Subject 1</h4>
         </div>

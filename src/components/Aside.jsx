@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Offcanvas, Button, Image, Nav } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation} from 'react-router-dom'
 import '../styles/aside.css'
 
 //Images
@@ -13,7 +13,7 @@ import infoIcon from '../assets/icons/about.svg'
 
 export default function Aside({show, handleClose}) {
 
-    
+    const {pathname} = useLocation()
   return (
     <>
         <div className="box-canvas d-none d-lg-block"></div>
@@ -41,16 +41,24 @@ export default function Aside({show, handleClose}) {
                     </div>
 
                     <nav className="navigation">
-                        <ul className='bg-secondary-2 mb-0 p-3 border-secondary border'>
-                            <Link to={'/tasks'} className='text-white text-decoration-none fw-bold fs-4'>Tasks</Link>
-                        </ul>
-                        <ul className='bg-secondary-2 mb-0 p-3 border-secondary border'>
-                            <Link to={'/calendar'} className='text-white text-decoration-none fw-bold fs-4'>Calendar</Link>
-                        </ul>
-                        <ul className='bg-secondary-2 mb-0 p-3 border-secondary border'>
+                        <ul 
+                            className={`mb-0 p-3 border-secondary border ${pathname === '/agenda' ? 'bg-secondary-3' : 'bg-secondary-2'}`}
+                        >
                             <Link to={'/agenda'} className='text-white text-decoration-none fw-bold fs-4'>Agenda</Link>
                         </ul>
-                        <ul className='bg-secondary-2 mb-0 p-3 border-secondary border'>
+                        <ul 
+                            className={`mb-0 p-3 border-secondary border ${pathname === '/tasks' ? 'bg-secondary-3' : 'bg-secondary-2'}`}
+                        >
+                            <Link to={'/tasks'} className='text-white text-decoration-none fw-bold fs-4'>Tasks</Link>
+                        </ul>
+                        <ul 
+                            className={`mb-0 p-3 border-secondary border ${pathname === '/notes' ? 'bg-secondary-3' : 'bg-secondary-2'}`}
+                        >
+                            <Link to={'/notes'} className='text-white text-decoration-none fw-bold fs-4'>Notes</Link>
+                        </ul>
+                        <ul 
+                            className={`mb-0 p-3 border-secondary border ${pathname === '/schedule' ? 'bg-secondary-3' : 'bg-secondary-2'}`}
+                        >
                             <Link to={'/schedule'} className='text-white text-decoration-none fw-bold fs-4'>Schedule</Link>
                         </ul>
                     </nav>

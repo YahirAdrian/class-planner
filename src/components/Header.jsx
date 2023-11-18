@@ -14,7 +14,7 @@ export default function Header({handleShow}) {
             </Link>    
         </div>
 
-        <button type="button" title="Open menu" className="bg-transparent border-0 d-md-none" onClick={handleShow}>
+        <button type="button" title="Open menu" className="bg-transparent border-0 d-lg-none" onClick={handleShow}>
             <Image src={burguerMenu} width={48} height={48} alt="Menu icon"/>
         </button>
     </header>

@@ -115,7 +115,20 @@ $subjects: (
     }
 }
 
+.section-box{
+    // Avoid repeating these classes in every section bg-white rounded p-4 mb-5 mx-2 mx-lg-4 shadow
+    background-color: $white;
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    margin-bottom: 3rem ;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
 
+
+
+//Bootstrap lg
 @media (min-width: 992px){
     .offcanvas-lg{
         position: fixed;
@@ -125,9 +138,14 @@ $subjects: (
         width: 300px;
     }
 
+    .section-box{
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+
 }
 
-
+// Bootstrap xl
 @media (min-width: 1200px){
     .box-canvas{
         width: 350px;

@@ -12169,12 +12169,26 @@ body {
   color: #fff;
 }
 
+.section-box {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  margin-bottom: 3rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
 @media (min-width: 992px) {
   .offcanvas-lg {
     position: fixed;
   }
   .box-canvas {
     width: 300px;
+  }
+  .section-box {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
   }
 }
 @media (min-width: 1200px) {

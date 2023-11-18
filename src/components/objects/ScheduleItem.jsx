@@ -7,7 +7,7 @@ export default function ScheduleItem() {
 
       <div className='me-xl-5 d-flex flex-column flex-md-row '>
         <span>Monday</span>
-        <span className="bullet mx-2 d-none d-sm-block">o</span>
+        <span className="bullet mx-2 d-none d-md-block">o</span>
         <span> 7:00 - 9:00</span>
       </div>
     </div>
