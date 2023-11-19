@@ -2,7 +2,7 @@ import { Image } from "react-bootstrap"
 
 import editIcon from '../../assets/icons/edit.svg'
 import removeIcon from '../../assets/icons/remove.svg'
-export default function Task() {
+export default function Task({setEditTaskModalShow, removeTask}) {
   return (
     <div className='task mb-3 p-2 p-md-3 d-flex align-items-center justify-content-between'>
     
@@ -22,10 +22,10 @@ export default function Task() {
         </div>
 
         <div className="actions">
-            <button type="button" className="bg-transparent border-0 " title="Edit task">
+            <button type="button" className="bg-transparent border-0 " title="Edit task" onClick={()=> setEditTaskModalShow(true)}>
                 <Image src={editIcon} width={24} height={24} alt="Edit icon"/>
             </button>
-            <button type="button" className="bg-transparent border-0 " title="Remove task">
+            <button type="button" className="bg-transparent border-0 " title="Remove task" onClick={removeTask}>
                 <Image src={removeIcon} width={24} height={24} alt="Remove icon"/>
             </button>
         </div>

@@ -6,10 +6,21 @@ import ModalForm from '../components/ModalForm'
 import NewTaskForm from '../components/forms/NewTaskForm';
 
 export default function Tasks() {
-  const [modalShow, setModalShow] = useState(false);
+  const [newTaskModalShow, setNewTaskModalShow] = useState(false);
+  const [editTaskModalShow, setEditTaskModalShow] = useState(false)
 
   const addNewTask = ()=>{
     console.log("New Task")
+  }
+  
+  const editTask = ()=>{
+    console.log("Edit Task")
+    
+  }
+  
+  const removeTask = ()=>{
+    confirm("Are you sure to delete this task?")
+
   }
 
   return (
@@ -17,7 +28,7 @@ export default function Tasks() {
       <div className='heading-box d-flex justify-content-between mb-4'>
         <h2>Tasks</h2>
         <button type="button" className='btn btn-primary'
-          onClick={()=> setModalShow(true)}
+          onClick={()=> setNewTaskModalShow(true)}
         >+ New Task</button>
       </div>
 
@@ -26,10 +37,18 @@ export default function Tasks() {
           <h3>Today</h3>
         </div>
 
-        <Task />
-        <Task />
-        <Task />
-        <Task />
+        <Task 
+          setEditTaskModalShow={setEditTaskModalShow}
+          removeTask={removeTask}
+          />
+        <Task 
+          setEditTaskModalShow={setEditTaskModalShow}
+          removeTask={removeTask}
+          />
+        <Task 
+          setEditTaskModalShow={setEditTaskModalShow}
+          removeTask={removeTask}
+          />
       </section>
 
       <section className='section-box'>
@@ -51,17 +70,35 @@ export default function Tasks() {
           
           <SubjectSelect />
         </div>
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
+        <Task 
+          setEditTaskModalShow={setEditTaskModalShow}
+          removeTask={removeTask}
+          />
+        <Task 
+          setEditTaskModalShow={setEditTaskModalShow}
+          removeTask={removeTask}
+          />
+        <Task 
+          setEditTaskModalShow={setEditTaskModalShow}
+          removeTask={removeTask}
+          />
       </section>
 
-      <ModalForm modalShow={modalShow} setModalShow={setModalShow} heading="New task" action={addNewTask}>
+      <ModalForm 
+        modalShow={newTaskModalShow}
+        setModalShow={setNewTaskModalShow}
+        heading="New task"
+        action={addNewTask}
+      >
+        <NewTaskForm />
+      </ModalForm>
+      
+      <ModalForm 
+        modalShow={editTaskModalShow}
+        setModalShow={setEditTaskModalShow}
+        heading="Edit task"
+        action={editTask}
+      >
         <NewTaskForm />
       </ModalForm>
     </>

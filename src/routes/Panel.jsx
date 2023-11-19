@@ -1,6 +1,7 @@
 import Schedule from "../components/agenda/Schedule"
 import Notes from "../components/agenda/Notes"
 import Tasks from "../components/agenda/Tasks"
+import { Link } from "react-router-dom"
 
 export default function Panel() {
   return (
@@ -14,7 +15,9 @@ export default function Panel() {
         <Tasks />
 
 
-        <Notes />
+        <Notes 
+          linkToNotes={true}
+        />
     </>
   )
 }

@@ -13,15 +13,31 @@ import EditScheduleForm from '../components/forms/EditScheduleForm'
 
 export default function Schedule() {
   const [modalScheduleShow, setModalScheduleShow] = useState(false)
+
   const [modalEventShow, setModalEventShow] = useState(false)
+  const [editEventModalShow, setEditEventModalShow] = useState(false)
+  const [viewEventModalShow, setViewEventModalShow] = useState(false)
 
   const createEvent = ()=>{
     console.log("Event created")
   }
 
+  const editEvent = () =>{
+    console.log("Edit event")
+  }
+
+  const removeEvent = ()=>{
+    confirm("Are you sure to remove this item?")
+  }
+
+  const viewEvent = ()=>{
+
+  }
+
   const editSchedule = ()=>{
     console.log("Schedule changed sucessfully")
   }
+
   return (
     <>
       <div className='heading-box d-flex justify-content-between mb-4'>
@@ -58,14 +74,30 @@ export default function Schedule() {
         <p className='text-gray-700'>Past events are removed automatically</p>
 
         <p className="fs-4 fw-bold">Friday</p>
-        <Event />
+        <Event 
+          setEditEventModalShow={setEditEventModalShow}
+          removeEvent={removeEvent}
+          setViewEventModalShow={setViewEventModalShow}
+        />
         <p className="fs-4 fw-bold">Saturday</p>
-        <Event />
-        <Event />
-        <Event />
+        <Event 
+          setEditEventModalShow={setEditEventModalShow}
+          removeEvent={removeEvent}
+          setViewEventModalShow={setViewEventModalShow}
+        />
+        <Event 
+          setEditEventModalShow={setEditEventModalShow}
+          removeEvent={removeEvent}
+          setViewEventModalShow={setViewEventModalShow}
+        />
+        <Event 
+          setEditEventModalShow={setEditEventModalShow}
+          removeEvent={removeEvent}
+          setViewEventModalShow={setViewEventModalShow}
+        />
       </section>
 
-      {/* Modal from for creating event */}
+      {/* Modal from to create and edit event */}
       <ModalForm 
         heading={"Create event"}
         action={createEvent}
@@ -73,6 +105,27 @@ export default function Schedule() {
         setModalShow={setModalEventShow}
       >
         <NewEventForm />
+      </ModalForm>
+
+      <ModalForm 
+        heading={"Edit event"}
+        action={editEvent}
+        modalShow={editEventModalShow}
+        setModalShow={setEditEventModalShow}
+      >
+        <NewEventForm />
+      </ModalForm>
+
+      <ModalForm 
+        heading={"Event title"}
+        action={viewEvent}
+        modalShow={viewEventModalShow}
+        setModalShow={setViewEventModalShow}
+      >
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos veritatis, nobis nesciunt cumque natus reiciendis culpa quis esse eligendi, nostrum perferendis maiores aspernatur doloribus aperiam in enim ratione doloremque laudantium?|</p>
+        <p><span className='text-gray-500'>Date:</span> 12/12/2023</p>
+        <p><span className='text-gray-500'>Time:</span> <span>10:00 - 12:00</span></p>
+        <p className='text-danger'>! Important</p>
       </ModalForm>
 
       {/* Modal form to edit the schedule */}
