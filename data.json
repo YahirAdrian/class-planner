@@ -1,0 +1,56 @@
+{
+    "user": {
+        "userId": "qwkhkjask1",
+        "userName": "Yahir",
+        "avatar": "",
+        "preferences": {
+            "panelOrder": ["schedule", "tasks", "notes"],
+            "language": "English"
+        }
+    },
+
+    "notes":[
+        {
+            "id": "1",
+            "title": "Hello world",
+            "content": "Lorem ipsum dolor sit amet consectetur adispisicing elit sed do eiusmod labore et dolore manga aliqua",
+            "subjectId": "1",
+            "createdAt": "2023-12-19"
+        }
+    ],
+
+    "tasks": [
+        {
+            "id": "1",
+            "name": "Create React app",
+            "deadline": "2024-02-12",
+            "subjectId": "1",
+            "important": true
+        }
+    ],
+
+    "subjects": [
+        {
+            "id": "1",
+            "name": "Subject 1",
+            "colorId": "1",
+            "schedule": [
+                {
+                    "day": "monday",
+                    "timeStart": "8:00",
+                    "timeEnd": "10:00"
+                }
+            ]
+        }
+    ],
+
+    "events": [
+        {
+            "id": "1",
+            "title": "Frist event",
+            "timeStart": "8:00",
+            "timeEnd": "10:00",
+            "important": true
+        }
+    ]
+}

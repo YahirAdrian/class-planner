@@ -1,12 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import '../src/styles/app.css'
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-
+import {ContextProvider} from './context/ContextProvider.jsx';
 
 import Layout from './routes/Layout.jsx';
 import Agenda from './routes/Agenda.jsx'
@@ -56,6 +55,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+
+    <ContextProvider>
+
+      <RouterProvider router={router} />
+    </ContextProvider>
   </React.StrictMode>,
 )
