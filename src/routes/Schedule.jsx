@@ -2,14 +2,16 @@ import { useState } from 'react'
 import { Image, Form } from 'react-bootstrap'
 
 import editIcon from '../assets/icons/edit.svg'
-import removeIcon from '../assets/icons/remove.svg'
 
-import ScheduleItem from '../components/objects/ScheduleItem'
+import ScheduleAgenda from '../components/agenda/ScheduleAgenda'
 import Event from '../components/objects/Event'
 import SubjectSelect from '../components/SubjectSelect'
 import ModalForm from '../components/ModalForm'
 import NewEventForm from '../components/forms/NewEventForm'
 import EditScheduleForm from '../components/forms/EditScheduleForm'
+
+import useAgenda from '../hooks/useContext'
+import { daysOfTheWeekEnglish } from '../utils/constants'
 
 export default function Schedule() {
   const [modalScheduleShow, setModalScheduleShow] = useState(false)
@@ -17,6 +19,13 @@ export default function Schedule() {
   const [modalEventShow, setModalEventShow] = useState(false)
   const [editEventModalShow, setEditEventModalShow] = useState(false)
   const [viewEventModalShow, setViewEventModalShow] = useState(false)
+
+  const {subjects, events} = useAgenda()
+
+  const [currentSubjectId, setCurrentSubjectId] = useState("1")
+  const currentSubject = subjects.filter(subject => subject.id === currentSubjectId)[0]
+  const arrangedEvents = orderEventsByDate(events)
+  // Get the schedule for every day of the week
 
   const createEvent = ()=>{
     console.log("Event created")
@@ -38,12 +47,17 @@ export default function Schedule() {
     console.log("Schedule changed sucessfully")
   }
 
+
   return (
     <>
       <div className='heading-box d-flex justify-content-between mb-4'>
         <h2>Schedule</h2>
 
-        <SubjectSelect />
+        <SubjectSelect
+          currentSubject={currentSubject}
+          currentSubjectId={currentSubjectId}
+          setCurrentSubjectId={setCurrentSubjectId}
+        />
       </div>
 
       <section className='section-box'>
@@ -54,15 +68,9 @@ export default function Schedule() {
           </button>
         </div>
 
-        
-        <p className="fs-4 fw-bold">Monday</p>
-        <ScheduleItem />
-        <p className="fs-4 fw-bold">Tuesday</p>
-        <ScheduleItem />
-        <p className="fs-4 fw-bold">Friday</p>
-        <ScheduleItem />
-        <ScheduleItem />
-
+        <ScheduleAgenda
+          subject={currentSubject}
+        />
       </section>
 
       <section className='section-box'>
@@ -73,28 +81,17 @@ export default function Schedule() {
 
         <p className='text-gray-700'>Past events are removed automatically</p>
 
-        <p className="fs-4 fw-bold">Friday</p>
-        <Event 
-          setEditEventModalShow={setEditEventModalShow}
-          removeEvent={removeEvent}
-          setViewEventModalShow={setViewEventModalShow}
-        />
-        <p className="fs-4 fw-bold">Saturday</p>
-        <Event 
-          setEditEventModalShow={setEditEventModalShow}
-          removeEvent={removeEvent}
-          setViewEventModalShow={setViewEventModalShow}
-        />
-        <Event 
-          setEditEventModalShow={setEditEventModalShow}
-          removeEvent={removeEvent}
-          setViewEventModalShow={setViewEventModalShow}
-        />
-        <Event 
-          setEditEventModalShow={setEditEventModalShow}
-          removeEvent={removeEvent}
-          setViewEventModalShow={setViewEventModalShow}
-        />
+        {arrangedEvents.map(event=>(
+          <Event 
+            key={event.id}
+            setEditEventModalShow={setEditEventModalShow}
+            removeEvent={removeEvent}
+            setViewEventModalShow={setViewEventModalShow}
+            event={event}
+          />
+
+        ))}
+        
       </section>
 
       {/* Modal from to create and edit event */}
@@ -139,4 +136,12 @@ export default function Schedule() {
       </ModalForm>
     </>
   )
+}
+
+
+function orderEventsByDate(events){
+  // Filter the schedule only for the ones of this day
+  events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  return events
 }

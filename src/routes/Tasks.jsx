@@ -1,14 +1,26 @@
 import { useState } from 'react';
+import moment from 'moment';
 
 import SubjectSelect from '../components/SubjectSelect'
 import Task from '../components/objects/Task'
 import ModalForm from '../components/ModalForm'
 import NewTaskForm from '../components/forms/NewTaskForm';
 
+import useAgenda from '../hooks/useContext';
+
 export default function Tasks() {
+
+  // States for modal
   const [newTaskModalShow, setNewTaskModalShow] = useState(false);
   const [editTaskModalShow, setEditTaskModalShow] = useState(false)
 
+  // Get the tasks from the hook
+  const {tasks} = useAgenda()
+
+  const nextTasks = getNextTasks(tasks)
+  const remainingTasks = getRemainingTasks(tasks, nextTasks)
+
+  // Task actions
   const addNewTask = ()=>{
     console.log("New Task")
   }
@@ -23,6 +35,10 @@ export default function Tasks() {
 
   }
 
+  // Filter the tasks of today
+  
+  // Filter the tasks by subject
+
   return (
     <>
       <div className='heading-box d-flex justify-content-between mb-4'>
@@ -34,21 +50,26 @@ export default function Tasks() {
 
       <section className='section-box'>
         <div className="heading-box">
-          <h3>Today</h3>
+          <h3>Next tasks</h3>
         </div>
 
-        <Task 
-          setEditTaskModalShow={setEditTaskModalShow}
-          removeTask={removeTask}
-          />
-        <Task 
-          setEditTaskModalShow={setEditTaskModalShow}
-          removeTask={removeTask}
-          />
-        <Task 
-          setEditTaskModalShow={setEditTaskModalShow}
-          removeTask={removeTask}
-          />
+        {tasks.length > 0 ?
+          nextTasks.map(task =>(
+            <Task 
+              key={task.id}
+              setEditTaskModalShow={setEditTaskModalShow}
+              removeTask={removeTask}
+              task={task}
+            />
+          ))
+        :
+          <div className="bg-gray-100 d-flex justify-content-center align-items-center p-5 rounded ">
+            <p className="fw-bold fs-2">There are no tasks for the next 7 days. Hurray!</p>
+          </div>
+        }
+
+        
+        
       </section>
 
       <section className='section-box'>
@@ -70,18 +91,16 @@ export default function Tasks() {
           
           <SubjectSelect />
         </div>
-        <Task 
-          setEditTaskModalShow={setEditTaskModalShow}
-          removeTask={removeTask}
-          />
-        <Task 
-          setEditTaskModalShow={setEditTaskModalShow}
-          removeTask={removeTask}
-          />
-        <Task 
-          setEditTaskModalShow={setEditTaskModalShow}
-          removeTask={removeTask}
-          />
+        {remainingTasks.map(task=>(
+          <Task 
+            key={task.id}
+            setEditTaskModalShow={setEditTaskModalShow}
+            removeTask={removeTask}
+            task={task}
+            />
+
+        ))}
+        
       </section>
 
       <ModalForm 
@@ -103,4 +122,32 @@ export default function Tasks() {
       </ModalForm>
     </>
   )
+}
+
+function getNextTasks(tasks){
+  // Get tasks for the next 7 days
+  const nextTasks = []
+  const today = moment()
+
+  tasks.map(task=>{
+    const taskDate = moment(task.deadline)
+    const difference = moment.duration(taskDate.diff(today))._data.days
+  
+    if(difference > 0 && difference <=7){
+      nextTasks.push(task)
+    }
+  })
+
+  return nextTasks;
+}
+
+function getRemainingTasks(tasks, nextTasks){
+  // Use a Set to store unique objects from array2
+  const uniqueObjects = new Set(nextTasks.map(JSON.stringify));
+
+  // Filter out objects from array1 that are present in the uniqueObjects set
+  const resultArray = tasks.filter(obj => !uniqueObjects.has(JSON.stringify(obj)));
+
+
+  return resultArray;
 }

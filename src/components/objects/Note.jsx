@@ -3,11 +3,15 @@ import { Image } from 'react-bootstrap'
 import editIcon from '../../assets/icons/edit.svg'
 import removeIcon from '../../assets/icons/remove.svg'
 
-export default function Note({setEditNoteModalShow, removeNote}) {
+export default function Note({setEditNoteModalShow, removeNote, note}) {
+
+  const {id, title, content, createdAt, subjectId} = note;
+
+
   return (
-    <div className='note p-2 bg-subject-1'>
+    <div className={`note p-2 bg-subject-${subjectId}`}>
       <div className='d-flex justify-content-between '>
-        <p className='fs-5 fw-bold '>Title</p>
+        <p className='fs-5 fw-bold '>{title}</p>
         <div>
         {setEditNoteModalShow && 
         
@@ -24,8 +28,8 @@ export default function Note({setEditNoteModalShow, removeNote}) {
         }
         </div>
       </div>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nobis cum obcaecati veritatis sunt minus aliquid hic.</p>
-      <span className="date">14/11/2023</span>
+      <p>{content}</p>
+      <span className="date">{createdAt}</span>
     </div>
   )
 }

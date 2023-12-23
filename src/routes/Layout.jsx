@@ -5,7 +5,7 @@ import Header from '../components/Header'
 
 export default function Layout() {
 
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
     const handleClose = ()=> setShow(false)
     const handleShow = ()=> setShow(true)
 

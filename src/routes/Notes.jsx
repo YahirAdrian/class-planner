@@ -1,14 +1,17 @@
 import { useState } from "react"
 import ModalForm from "../components/ModalForm"
 import Note from '../components/objects/Note'
-import NewTaskForm from "../components/forms/NewTaskForm"
 import NewNoteForm from "../components/forms/NewNoteForm"
+
+import useAgenda from '../hooks/useContext'
 
 export default function Calendar() {
 
   // State for modal
   const [modalShow, setModalShow] = useState(false)
   const [editNotemodalShow, setEditNoteModalShow] = useState(false)
+
+  const {notes} = useAgenda();
 
   const addNewNote =  ()=>{
     console.log("New note")
@@ -29,22 +32,16 @@ export default function Calendar() {
       </div>
       <div className="mt-3 notes-box d-flex flex-wrap gap-2 justify-content-evenly">
 
-        <Note
-          setEditNoteModalShow={setEditNoteModalShow}
-          removeNote={removeNote}
-        />
-        <Note
-          setEditNoteModalShow={setEditNoteModalShow}
-          removeNote={removeNote}
-        />
-        <Note
-          setEditNoteModalShow={setEditNoteModalShow}
-          removeNote={removeNote}
-        />
-        <Note
-          setEditNoteModalShow={setEditNoteModalShow}
-          removeNote={removeNote}
-        />
+        {notes.map(note=>(
+          <Note
+            key={note.id}
+            setEditNoteModalShow={setEditNoteModalShow}
+            removeNote={removeNote}
+            note={note}
+          />
+
+        ))}
+        
       </div>
       
       <ModalForm

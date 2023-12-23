@@ -3,14 +3,19 @@ import { Image } from 'react-bootstrap'
 import editIcon from '../../assets/icons/edit.svg'
 import removeIcon from '../../assets/icons/remove.svg'
 
-export default function Event({setEditEventModalShow, setViewEventModalShow, removeEvent}) {
+import { stringDate } from '../../utils/functions'
+
+export default function Event({setEditEventModalShow, setViewEventModalShow, removeEvent, event}) {
+  const {id, title, date, timeStart, timeEnd} = event
   return (
     <div className='schedule-item text-dark bg-gray-100 mb-3 d-flex p-3 justify-content-between align-items-center'>
       
 
-      <p className="subject-name mb-0">Event title</p>
+      <p className="subject-name mb-0">{title}</p>
+      <span className="text-gray-900 small ">{stringDate(date)}</span>
+
       <div className='me-xl-5 d-flex flex-column flex-md-row align-items-center'>
-        <span className='mb-2 mb-md-0 text-gray-700'> 7:00 - 9:00</span>
+        <span className='mb-2 mb-md-0 text-gray-700'>{timeStart} - {timeEnd}</span>
 
         <div className="actions d-flex gap-1 ms-md-2">
 
