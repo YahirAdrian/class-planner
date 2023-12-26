@@ -50,7 +50,7 @@ export default function Schedule() {
 
   return (
     <>
-      <div className='heading-box d-flex justify-content-between mb-4'>
+      <div className='heading-box d-flex justify-content-between mb-4 p-3'>
         <h2>Schedule</h2>
 
         <SubjectSelect

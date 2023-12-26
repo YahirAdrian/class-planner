@@ -4,7 +4,7 @@ import moment from 'moment';
 import SubjectSelect from '../components/SubjectSelect'
 import Task from '../components/objects/Task'
 import ModalForm from '../components/ModalForm'
-import NewTaskForm from '../components/forms/NewTaskForm';
+import TaskForm from '../components/forms/TaskForm';
 
 import useAgenda from '../hooks/useContext';
 
@@ -15,7 +15,7 @@ export default function Tasks() {
   const [editTaskModalShow, setEditTaskModalShow] = useState(false)
 
   // Get the tasks from the hook
-  const {tasks} = useAgenda()
+  const {tasks, actions} = useAgenda()
 
   const nextTasks = getNextTasks(tasks)
   const remainingTasks = getRemainingTasks(tasks, nextTasks)
@@ -41,7 +41,7 @@ export default function Tasks() {
 
   return (
     <>
-      <div className='heading-box d-flex justify-content-between mb-4'>
+      <div className='heading-box d-flex justify-content-between mb-4 p-3'>
         <h2>Tasks</h2>
         <button type="button" className='btn btn-primary'
           onClick={()=> setNewTaskModalShow(true)}
@@ -107,9 +107,10 @@ export default function Tasks() {
         modalShow={newTaskModalShow}
         setModalShow={setNewTaskModalShow}
         heading="New task"
-        action={addNewTask}
       >
-        <NewTaskForm />
+        <TaskForm 
+          action={actions.addTask}
+        />
       </ModalForm>
       
       <ModalForm 
@@ -118,7 +119,7 @@ export default function Tasks() {
         heading="Edit task"
         action={editTask}
       >
-        <NewTaskForm />
+        <TaskForm />
       </ModalForm>
     </>
   )

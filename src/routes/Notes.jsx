@@ -1,9 +1,9 @@
 import { useState } from "react"
 import ModalForm from "../components/ModalForm"
 import Note from '../components/objects/Note'
-import NewNoteForm from "../components/forms/NewNoteForm"
 
 import useAgenda from '../hooks/useContext'
+import NoteForm from "../components/forms/NoteForm"
 
 export default function Calendar() {
 
@@ -11,7 +11,7 @@ export default function Calendar() {
   const [modalShow, setModalShow] = useState(false)
   const [editNotemodalShow, setEditNoteModalShow] = useState(false)
 
-  const {notes} = useAgenda();
+  const {notes, actions} = useAgenda();
 
   const addNewNote =  ()=>{
     console.log("New note")
@@ -26,7 +26,7 @@ export default function Calendar() {
 
   return (
     <>
-      <div className="heading-box d-flex justify-content-between mb-4 mt-2">
+      <div className="heading-box d-flex justify-content-between mb-4 mt-2 p-3">
         <h2>Notes</h2>
         <button type="button" className="btn btn-primary" onClick={()=> setModalShow(true)}> + New note</button>
       </div>
@@ -45,12 +45,13 @@ export default function Calendar() {
       </div>
       
       <ModalForm
-        heading="Edit note"
-        action={editNote}
-        modalShow={editNotemodalShow}
-        setModalShow={setEditNoteModalShow}
+        heading="New Note"
+        modalShow={modalShow}
+        setModalShow={setModalShow}
       >
-        <NewNoteForm />
+        <NoteForm
+          action={actions.addNote}
+        />
       </ModalForm>
     </>
   )

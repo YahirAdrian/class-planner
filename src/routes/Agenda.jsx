@@ -7,20 +7,22 @@ import Tasks from "../components/agenda/Tasks"
 import ScheduleAgenda from "../components/agenda/ScheduleAgenda"
 
 import ModalForm from '../components/ModalForm'
-import NewSubjectForm from "../components/forms/NewSubjectForm"
-import NewTaskForm from '../components/forms/NewTaskForm'
-import NewNoteForm from "../components/forms/NewNoteForm"
+import NewSubjectForm from "../components/forms/SubjectForm"
+import TaskForm from '../components/forms/TaskForm'
+import NoteForm from "../components/forms/NoteForm"
 
 import '../styles/agenda.css'
 import editIcon from '../assets/icons/edit.svg'
 import removeIcon from '../assets/icons/remove.svg'
 
 import useAgenda from '../hooks/useContext'
+import SubjectForm from "../components/forms/SubjectForm"
 
 export default function Agenda() {
 
-  const {subjects, notes, tasks} = useAgenda()
-
+  const {subjects, notes, tasks,
+          actions
+        } = useAgenda()
 
   // Create states for modal
   const [subjectModalShow, setSubjectModalShow] = useState(false)
@@ -32,37 +34,41 @@ export default function Agenda() {
   // Current subject State
   const [currentSubjectId, setCurrentSubjectId] = useState("1")
   const currentSubject = subjects.filter(subject => subject.id === currentSubjectId)[0]
-
+  
   const tasksOfSubject = tasks.filter(task=> task.subjectId === currentSubject.id)
   const notesOfSubject = notes.filter(note => note.subjectId === currentSubject.id)
-
-  //Actions when modal forms are submitted
-  const createSubject = ()=>{
-    console.log("New Subject")
+  
+  
+  const createSubject = e=>{
+    e.preventDefault()
+    
+    const subjectName = e.target[0].value
+    const colorId = e.target[1].value
+  
+    actions.addSubject(subjectName, colorId)
+  
   }
   
-  const editSubject = ()=>{
+  const editSubject= ()=>{
     console.log("Edit Subject")
-
+  
   }
-
-  const removeSubject = ()=>{
+  
+  const removeSubject= ()=>{
     confirm("Are you sure you want to remove this subject?")
   }
-
-  const createTaskSubject = ()=>{
+  
+  const createTaskSubject= ()=>{
     console.log("New task for subject")
   }
-
-  const editTaskSubject = ()=>{
+  
+  const editTaskSubject= ()=>{
     console.log("Edit task for subject")
   }
-
-  const createNoteSubject = ()=>{
+  
+  const createNoteSubject= ()=>{
     console.log("New note for subject")
   }
-  
-
   return (
     <>
       <div>
@@ -80,7 +86,7 @@ export default function Agenda() {
 
           <main className="subject-content bg-white mx-md-3 mx-lg-5 m-3">
             <div className="heading-box d-flex justify-content-between ">
-              <h3 className={`text-subject-${currentSubject.id} fs-3`}>{currentSubject.name}</h3>
+              <h3 className={`text-subject-${currentSubject.colorId} fs-3`}>{currentSubject.name}</h3>
               <div>
                 <button type="button" className="bg-transparent border-0  me-3" title="Edit subject" onClick={()=> setEditSubjectModalShow(true)}>
                   <Image src={editIcon} width={24} height={24} alt="Edit icon"/>
@@ -108,11 +114,12 @@ export default function Agenda() {
 
       <ModalForm
         heading="New subject"
-        action={createSubject}
         modalShow={subjectModalShow}
         setModalShow={setSubjectModalShow}
       >
-        <NewSubjectForm />
+        <SubjectForm 
+          action={createSubject}
+        />
       </ModalForm>
 
       <ModalForm
@@ -121,7 +128,7 @@ export default function Agenda() {
         modalShow={editSubjectModalShow}
         setModalShow={setEditSubjectModalShow}
       >
-        <NewSubjectForm />
+        <SubjectForm />
       </ModalForm>
 
       <ModalForm
@@ -130,7 +137,10 @@ export default function Agenda() {
         modalShow={tasktModalShow}
         setModalShow={setTaskModalShow}
       >
-        <NewTaskForm />
+        <TaskForm 
+          action={actions.addTask}
+          subjectId={currentSubjectId}
+        />
       </ModalForm>
 
       <ModalForm
@@ -139,8 +149,12 @@ export default function Agenda() {
         modalShow={notetModalShow}
         setModalShow={setNoteModalShow}
       >
-        <NewNoteForm />
+        <NoteForm
+          action={actions.addNote}
+          subjectId={currentSubjectId}
+        />
       </ModalForm>
     </>
   )
 }
+

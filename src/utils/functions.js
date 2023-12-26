@@ -7,6 +7,11 @@ function stringDate(date){
     return strDate
 }
 
+function generateId(prefix){
+    return prefix + "_" + Math.random().toString(16).slice(2)
+}
+
 export{
-    stringDate
+    stringDate,
+    generateId
 }

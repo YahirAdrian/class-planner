@@ -15,14 +15,6 @@ export default function ModalForm({children, modalShow, setModalShow, heading, a
           {children}
         </Modal.Body>
 
-        <Modal.Footer>
-        <Button variant="outline-danger" onClick={()=> setModalShow(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={action}>
-            Create
-          </Button>
-        </Modal.Footer>
     </Modal>
   )
 }

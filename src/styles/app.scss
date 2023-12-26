@@ -40,11 +40,13 @@ $subjects: (
     "8": #EF2C2C
     );
     
-    
     //font-customization
     
     @import "../../node_modules/bootstrap/scss/bootstrap";
     
+    .form-control.custom-color:focus{
+        background-color: inherit !important;
+    }
     body{
         font-family: 'Poppins', sans-serif;
     }
@@ -114,6 +116,7 @@ $subjects: (
         color: $white;
     }
 }
+
 
 .section-box{
     // Avoid repeating these classes in every section bg-white rounded p-4 mb-5 mx-2 mx-lg-4 shadow

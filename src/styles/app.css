@@ -11976,6 +11976,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.form-control.custom-color:focus {
+  background-color: inherit !important;
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }
