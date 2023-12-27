@@ -117,18 +117,22 @@ export default function Agenda() {
         modalShow={subjectModalShow}
         setModalShow={setSubjectModalShow}
       >
-        <SubjectForm 
+        <SubjectForm
+          form={'create'}
           action={createSubject}
         />
       </ModalForm>
 
       <ModalForm
         heading="Edit subject"
-        action={editSubject}
         modalShow={editSubjectModalShow}
         setModalShow={setEditSubjectModalShow}
       >
-        <SubjectForm />
+        <SubjectForm 
+          form={'edit'}
+          currentSubject={currentSubject}
+          action={actions.editSubject}
+        />
       </ModalForm>
 
       <ModalForm

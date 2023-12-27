@@ -11,7 +11,12 @@ function generateId(prefix){
     return prefix + "_" + Math.random().toString(16).slice(2)
 }
 
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
 export{
     stringDate,
-    generateId
+    generateId,
+    capitalize
 }
