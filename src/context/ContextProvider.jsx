@@ -1,7 +1,8 @@
 import { createContext } from "react";
 
 import { 
-    notEmptyAndSymbols
+    notEmptyAndSymbols,
+    notEmpty
  } from "../utils/validations";
 
  import { generateId } from "../utils/functions";
@@ -94,7 +95,7 @@ const ContextProvider = ({children}) =>{
         const deadline = e.target[2].value
         const important = e.target[3].value === 'true' ? true : false //Convert from string to boolean
         
-        if(notEmptyAndSymbols(taskName)){
+        if(notEmpty(taskName)){
             // Create the task object
             const newTask = {
                 id: generateId('task'),
@@ -133,7 +134,7 @@ const ContextProvider = ({children}) =>{
             }
         })[0]
         // Validate the subject Id and color
-        if(notEmptyAndSymbols(newName) && subjectToEdit.id !== undefined && !isNaN(newColorId)){ //Validate subjectName and ColorId
+        if(notEmpty(newName) && subjectToEdit.id !== undefined && !isNaN(newColorId)){ //Validate subjectName and ColorId
             
             // Replace the values
             const updatedSubject = {
@@ -152,6 +153,91 @@ const ContextProvider = ({children}) =>{
             alert('Oops there was a problem while editing the subject Try not using symbols or empty values.')
         }
     }
+
+    const editTask = e =>{
+        e.preventDefault()
+        const subjectId = e.target[0].value
+        const taskName = e.target[1].value
+        const taskDue = e.target[2].value
+        const taskImportance = e.target[3].value === 'true' ? true : false
+        const taskId = e.target[4].value
+        let originalIndex
+
+        const taskToEdit = tasks.filter((task, index) => {
+            if(task.id === taskId){
+                originalIndex = index
+                return task
+            }
+        })[0]
+
+        if(notEmpty(subjectId) && notEmpty(taskName) && notEmpty(taskDue) && notEmpty(taskId)){
+            const updatedTask = {
+                id: taskToEdit.id,
+                subjectId,
+                name: taskName,
+                deadline: taskDue,
+                important: taskImportance,
+                completed: taskToEdit.completed
+            }
+
+            tasks[originalIndex] = updatedTask
+            localStorage.setItem('tasks', JSON.stringify(tasks))
+            location.reload()
+        }else{
+            alert('Oops there was a problem while editing the task Try not using symbols or empty values.')
+        }
+    }
+
+    const editNote =  e =>{
+        e.preventDefault()
+        const subjectId = e.target[0].value
+        const noteTitle = e.target[1].value
+        const noteContent = e.target[2].value
+
+        const noteId = e.target[3].value
+        const noteToEdit = notes.filter((note, index) => {
+            if(note.id === noteId){
+                note.originalIndex = index
+                return note
+            }
+        })[0]
+
+        if(notEmpty(subjectId) && notEmpty(noteTitle) && notEmpty(noteContent)){
+            const updatedNote = {
+                id: noteId,
+                subjectId,
+                title: noteTitle,
+                content: noteContent,
+                createdAt: noteToEdit.createdAt
+            }
+
+            notes[noteToEdit.originalIndex] = updatedNote
+
+            localStorage.setItem('notes', JSON.stringify(notes))
+            location.reload()
+        }else{
+            alert('Oops there was a problem while editing the note Try not using symbols or empty values.')
+        }
+    }
+
+    // Remove functions
+    const removeNote = ()=>{
+
+    }
+
+    const removeSubject = subjectId =>{
+        const subjectToRemove = subjects.filter(subject => (subject.id === subjectId))[0]
+
+        if(subjectToRemove !== undefined){
+            if(confirm('Are you sure to delete this subject? With this action all subjects, notes, and schedule associated to this subject will be removed. This action cannot be undone.')){
+                // Delete the subject
+                const newSubjects = subjects.filter(subject => (subject !== subjectId))
+                localStorage.setItem('subjects', JSON.stringify(newSubjects))
+                location.reload()
+            }
+        }
+    }
+
     return(
         <AppContext.Provider
             value={{
@@ -164,7 +250,11 @@ const ContextProvider = ({children}) =>{
                     addSubject,
                     addNote,
                     addTask,
-                    editSubject
+                    editSubject,
+                    editNote,
+                    editTask,
+                    removeSubject,
+                    removeNote
                 }
             }}
         >

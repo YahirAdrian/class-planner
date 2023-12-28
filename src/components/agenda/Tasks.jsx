@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import Task from "../objects/Task"
 
-export default function Tasks({ setTaskModalShow, tasks }) {
+export default function Tasks({ setTaskModalShow, setEditTaskModalShow,setTaskToEdit, tasks }) {
 
 
   return (
@@ -23,6 +23,8 @@ export default function Tasks({ setTaskModalShow, tasks }) {
             <Task 
               key={task.id}
               task={task}
+              setEditTaskModalShow={setEditTaskModalShow}
+              setTaskToEdit={setTaskToEdit}
             />
           ))
         }

@@ -14,6 +14,8 @@ export default function Tasks() {
   const [newTaskModalShow, setNewTaskModalShow] = useState(false);
   const [editTaskModalShow, setEditTaskModalShow] = useState(false)
 
+  const[taskToEdit, setTaskToEdit] = useState({})
+
   // Get the tasks from the hook
   const {tasks, actions} = useAgenda()
 
@@ -60,6 +62,7 @@ export default function Tasks() {
               setEditTaskModalShow={setEditTaskModalShow}
               removeTask={removeTask}
               task={task}
+              setTaskToEdit={setTaskToEdit}
             />
           ))
         :
@@ -96,6 +99,7 @@ export default function Tasks() {
             key={task.id}
             setEditTaskModalShow={setEditTaskModalShow}
             removeTask={removeTask}
+            setTaskToEdit={setTaskToEdit}
             task={task}
             />
 
@@ -110,16 +114,21 @@ export default function Tasks() {
       >
         <TaskForm 
           action={actions.addTask}
-        />
+          formType="create"
+          />
       </ModalForm>
       
       <ModalForm 
         modalShow={editTaskModalShow}
         setModalShow={setEditTaskModalShow}
         heading="Edit task"
-        action={editTask}
-      >
-        <TaskForm />
+        >
+        <TaskForm
+          formType="edit"
+          action={actions.editTask}
+          task={taskToEdit}
+          subjectId={taskToEdit.subjectId}
+         />
       </ModalForm>
     </>
   )

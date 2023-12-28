@@ -28,8 +28,15 @@ export default function Agenda() {
   const [subjectModalShow, setSubjectModalShow] = useState(false)
   const [editSubjectModalShow, setEditSubjectModalShow] = useState(false)
 
-  const [tasktModalShow, setTaskModalShow] = useState(false)
+  const [taskModalShow, setTaskModalShow] = useState(false)
+  const [editTaskModalShow, setEditTaskModalShow] = useState(false)
+  const [taskToEdit, setTaskToEdit] = useState({})
+
   const [notetModalShow, setNoteModalShow] = useState(false)
+  const [editNoteModalShow, setEditNoteModalShow] = useState(false)
+  const [noteToEdit, setNoteToEdit] = useState({})
+
+
 
   // Current subject State
   const [currentSubjectId, setCurrentSubjectId] = useState("1")
@@ -52,10 +59,6 @@ export default function Agenda() {
   const editSubject= ()=>{
     console.log("Edit Subject")
   
-  }
-  
-  const removeSubject= ()=>{
-    confirm("Are you sure you want to remove this subject?")
   }
   
   const createTaskSubject= ()=>{
@@ -91,18 +94,22 @@ export default function Agenda() {
                 <button type="button" className="bg-transparent border-0  me-3" title="Edit subject" onClick={()=> setEditSubjectModalShow(true)}>
                   <Image src={editIcon} width={24} height={24} alt="Edit icon"/>
                 </button>
-                <button type="button" className="bg-transparent border-0   me-3" title="Remove subject" onClick={()=> removeSubject()}>
+                <button type="button" className="bg-transparent border-0   me-3" title="Remove subject" onClick={()=> actions.removeSubject(currentSubjectId)}>
                   <Image src={removeIcon} width={24} height={24} alt="Edit icon"/>
                 </button>
               </div>
             </div>
             <Notes 
-              setNoteModalShow={setNoteModalShow}
               notes={notesOfSubject}
+              setNoteModalShow={setNoteModalShow}
+              setEditNoteModalShow={setEditNoteModalShow}
+              setNoteToEdit={setNoteToEdit}
             />
             <Tasks 
               setTaskModalShow={setTaskModalShow}
+              setEditTaskModalShow={setEditTaskModalShow}
               tasks={tasksOfSubject}
+              setTaskToEdit={setTaskToEdit}
             />
             <ScheduleAgenda
               subject={currentSubject}
@@ -138,24 +145,51 @@ export default function Agenda() {
       <ModalForm
         heading="New task"
         action={createTaskSubject}
-        modalShow={tasktModalShow}
+        modalShow={taskModalShow}
         setModalShow={setTaskModalShow}
       >
         <TaskForm 
           action={actions.addTask}
           subjectId={currentSubjectId}
+          formType="create"
+        />
+      </ModalForm>
+
+      <ModalForm
+        heading="Edit task"
+        modalShow={editTaskModalShow}
+        setModalShow={setEditTaskModalShow}
+      >
+        <TaskForm 
+          action={actions.editTask}
+          subjectId={currentSubjectId}
+          task={taskToEdit}
+          formType="edit"
         />
       </ModalForm>
 
       <ModalForm
         heading="New note"
-        action={createNoteSubject}
         modalShow={notetModalShow}
         setModalShow={setNoteModalShow}
       >
         <NoteForm
           action={actions.addNote}
           subjectId={currentSubjectId}
+          formType="create"
+        />
+      </ModalForm>
+
+      <ModalForm
+        heading="Edit note"
+        modalShow={editNoteModalShow}
+        setModalShow={setEditNoteModalShow}
+      >
+        <NoteForm
+          action={actions.editNote}
+          subjectId={currentSubjectId}
+          formType="edit"
+          note={noteToEdit}
         />
       </ModalForm>
     </>

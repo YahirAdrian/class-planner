@@ -4,12 +4,18 @@ import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import useAgenda from '../../hooks/useContext'
 
-export default function TaskForm({action, subjectId}) {
+import { capitalize } from '../../utils/functions'
+
+export default function TaskForm({formType, action, subjectId, task}) {
 
   const {subjects} = useAgenda()
   const [currentSubjectId, setCurrentSubjectId] = useState(subjectId !== undefined ? subjectId : '1')
-  const [important, setImportant] = useState(false)
-
+  
+  // Task info only edit mode
+  const [taskName, setTaskName] = useState(task !== undefined ? task.name : '')
+  const [taskDeadline, setTaskDeadline] = useState(task !== undefined ? task.deadline : '')
+  const [important, setImportant] = useState(task !== undefined ? task.important: false)
+  
   const subjectColor = subjects.filter(subject => (subject.id === currentSubjectId))[0].colorId
 
   return ( 
@@ -27,20 +33,24 @@ export default function TaskForm({action, subjectId}) {
 
         <Form.Group className='mb-3'>
         <Form.Label>Task name</Form.Label>
-        <Form.Control type='text' placeholder='Task'/>
+        <Form.Control type='text' placeholder='Task' value={taskName} onChange={e => setTaskName(e.target.value)}/>
         </Form.Group>
 
         <Form.Group className='mb-3'>
         <Form.Label>Due date <span className="text-gray-500">(optional)</span></Form.Label>
-        <Form.Control type='date'/>
+        <Form.Control type='date' value={taskDeadline} onChange={e => setTaskDeadline(e.target.value)}/>
         </Form.Group>
 
         <Form.Group>
           <Form.Check type='switch' label='Important' value={important} state={String(important)} onChange={e=> setImportant(!important)}/>
         </Form.Group>
 
+        {formType === 'edit' && (
+          <input type='hidden' value={task.id} readOnly/>
+        )}
+
         <div className="d-flex justify-content-end">
-          <Button variant="primary" type="submit">Create note</Button>
+          <Button variant="primary" type="submit">{capitalize(formType)} Task</Button>
         </div>
     </Form>
   )

@@ -12,6 +12,11 @@ function notEmptyAndSymbols(value){
     return valid
 }
 
+function notEmpty(value){
+    return value.trim() !== ''
+}
+
 export {
-    notEmptyAndSymbols
+    notEmptyAndSymbols,
+    notEmpty
 }

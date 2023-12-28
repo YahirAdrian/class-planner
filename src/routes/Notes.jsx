@@ -11,15 +11,10 @@ export default function Calendar() {
   const [modalShow, setModalShow] = useState(false)
   const [editNotemodalShow, setEditNoteModalShow] = useState(false)
 
+  const[noteToEdit, setNoteToEdit] = useState({})
+
   const {notes, actions} = useAgenda();
 
-  const addNewNote =  ()=>{
-    console.log("New note")
-  }
-
-  const editNote = ()=>{
-    console.log("Edit Note")
-  }
   const removeNote = ()=>{
     confirm("Are you sure to delete this note?")
   }
@@ -36,6 +31,7 @@ export default function Calendar() {
           <Note
             key={note.id}
             setEditNoteModalShow={setEditNoteModalShow}
+            setNoteToEdit={setNoteToEdit}
             removeNote={removeNote}
             note={note}
           />
@@ -48,9 +44,23 @@ export default function Calendar() {
         heading="New Note"
         modalShow={modalShow}
         setModalShow={setModalShow}
-      >
+        >
         <NoteForm
           action={actions.addNote}
+          formType="create"
+        />
+      </ModalForm>
+
+      <ModalForm
+        heading="Edit Note"
+        modalShow={editNotemodalShow}
+        setModalShow={setEditNoteModalShow}
+        >
+        <NoteForm
+          action={actions.editNote}
+          formType="edit"
+          subjectId={noteToEdit.subjectId}
+          note={noteToEdit}
         />
       </ModalForm>
     </>

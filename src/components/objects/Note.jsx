@@ -1,14 +1,13 @@
 import { Image } from 'react-bootstrap'
 
-import editIcon from '../../assets/icons/edit.svg'
-import removeIcon from '../../assets/icons/remove.svg'
+import editIcon from '../../assets/icons/edit-white.svg'
+import removeIcon from '../../assets/icons/remove-white.svg'
 import useAgenda from '../../hooks/useContext';
 
-export default function Note({setEditNoteModalShow, removeNote, note}) {
-
+export default function Note({note, setEditNoteModalShow, setNoteToEdit}) {
   const {id, title, content, createdAt, subjectId} = note;
 
-  const {subjects} = useAgenda()
+  const {subjects, actions} = useAgenda()
   const noteColor = subjects.filter(subject => (subject.id === subjectId))[0].colorId
 
   return (
@@ -18,17 +17,22 @@ export default function Note({setEditNoteModalShow, removeNote, note}) {
         <div>
         {setEditNoteModalShow && 
         
-          <button type="button" className="bg-transparent border-0 " title="Edit task" onClick={()=> setEditNoteModalShow(true)}>
+          <button 
+            type="button"
+            className="bg-transparent border-0 "
+            title="Edit task"
+            onClick={()=> { 
+              setNoteToEdit(note)
+              setEditNoteModalShow(true)
+            }}
+           >
             <Image src={editIcon} width={24} height={24} alt="Edit icon"/>
           </button>
         }
 
-        {removeNote && 
-        
-          <button type="button" className="bg-transparent border-0 " title="Remove task" onClick={removeNote}>
-            <Image src={removeIcon} width={24} height={24} alt="Remove icon"/>
-          </button>
-        }
+        <button type="button" className="bg-transparent border-0 " title="Remove task" onClick={actions.removeNote}>
+          <Image src={removeIcon} width={24} height={24} alt="Remove icon"/>
+        </button>
         </div>
       </div>
       <p>{content}</p>

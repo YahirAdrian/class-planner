@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom"
 import Note from "../objects/Note"
 
-export default function Notes({setNoteModalShow, notes}) {
+
+export default function Notes({notes, setNoteModalShow, setEditNoteModalShow, setNoteToEdit}) {
 
 
   return (
@@ -17,6 +17,8 @@ export default function Notes({setNoteModalShow, notes}) {
               <Note
                 key={note.id}
                 note={note}
+                setEditNoteModalShow={setEditNoteModalShow}
+                setNoteToEdit={setNoteToEdit}
               />
             ))
           :
