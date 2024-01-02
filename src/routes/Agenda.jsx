@@ -18,9 +18,13 @@ import removeIcon from '../assets/icons/remove.svg'
 import useAgenda from '../hooks/useContext'
 import SubjectForm from "../components/forms/SubjectForm"
 
+// Models 
+import Subject from "../models/Subject"
+import { getParsedLS } from "../utils/functions"
+
 export default function Agenda() {
 
-  const {subjects, notes, tasks,
+  const {subjects, setSubjects, notes, tasks,
           actions
         } = useAgenda()
 
@@ -46,20 +50,8 @@ export default function Agenda() {
   const notesOfSubject = notes.filter(note => note.subjectId === currentSubject.id)
   
   
-  const createSubject = e=>{
-    e.preventDefault()
-    
-    const subjectName = e.target[0].value
-    const colorId = e.target[1].value
   
-    actions.addSubject(subjectName, colorId)
   
-  }
-  
-  const editSubject= ()=>{
-    console.log("Edit Subject")
-  
-  }
   
   const createTaskSubject= ()=>{
     console.log("New task for subject")
@@ -194,5 +186,19 @@ export default function Agenda() {
       </ModalForm>
     </>
   )
-}
+  // Subject actions
+  function createSubject(e){
+    e.preventDefault()
+    
+    const subjectName = e.target[0].value
+    const colorId = e.target[1].value
+  
+    new Subject(subjectName, colorId)
+  
+    setSubjects(getParsedLS('subjects'))
+    setSubjectModalShow(false)
+  
+  }
 
+  
+}

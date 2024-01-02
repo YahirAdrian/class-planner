@@ -1,11 +1,14 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
+
+// Models
+import Subject from "../models/Subject";
 
 import { 
     notEmptyAndSymbols,
     notEmpty
  } from "../utils/validations";
 
- import { generateId } from "../utils/functions";
+ import { generateId, getParsedLS } from "../utils/functions";
 const AppContext = createContext()
 
 const ContextProvider = ({children}) =>{
@@ -20,43 +23,16 @@ const ContextProvider = ({children}) =>{
         }
     }
 
-    const subjectInitialValue = [
-        {
-            id: '1',
-            subjectId: '1',
-            name: 'Subject 1',
-            colorId: '1',
-            schedule: []
-        }    
-    ]
+    // Set the initial values (in the constructor of the model updates LS when the object is created)
+    
 
+
+    // Sates of the app models
+    const [subjects, setSubjects] = useState(getParsedLS('subjects') !== null ? getParsedLS('subjects'): new Subject("Subject 1", "1", true))
     const userData = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : userInitialValue;
     const notes = localStorage.getItem('notes') !== null ? JSON.parse(localStorage.getItem('notes')) : [] ;
-    const subjects = localStorage.getItem('subjects') !== null ? JSON.parse(localStorage.getItem('subjects')) : subjectInitialValue ;
     const tasks = localStorage.getItem('tasks') !== null ? JSON.parse(localStorage.getItem('tasks'))  : [];
     const events = localStorage.getItem('events') !== null ? JSON.parse(localStorage.getItem('events'))  : [];
-
-
-    // Functions to create new object instances
-    const addSubject=(subjectName, colorId)=>{
-        // Validate the subject Id and color
-        if(notEmptyAndSymbols(subjectName) && !isNaN(colorId)){ //Validate subjectName and ColorId
-            const newSubject = {
-                id: generateId('subject'),
-                name: subjectName,
-                colorId: colorId,
-                schedule: []
-            }
-
-            // Update localStorage
-            const newSubjects = [...subjects, newSubject]
-            localStorage.setItem('subjects', JSON.stringify(newSubjects))
-
-            location.reload()
-        }else{
-            alert('Cannot create the subject. Try not using symbols or empty values.')
-        }
-    }
 
     const addNote = (e)=>{
         e.preventDefault()
@@ -244,10 +220,10 @@ const ContextProvider = ({children}) =>{
                 userData,
                 notes,
                 subjects,
+                setSubjects,
                 tasks,
                 events,
                 actions:{
-                    addSubject,
                     addNote,
                     addTask,
                     editSubject,
