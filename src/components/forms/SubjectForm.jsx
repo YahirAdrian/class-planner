@@ -10,7 +10,7 @@ export default function SubjectForm({form, action, currentSubject}) {
   const [colorId, setColorId] = useState(form === 'edit' ? currentSubject.colorId : 1)
   const [subjectName,setSubjectName] = useState(form === 'edit' ? currentSubject.name : '')
   return (
-    <Form onSubmit={action} method="post">
+    <Form onSubmit={action} method="get">
       <Form.Group>
         <Form.Label>Subject name</Form.Label>
         <Form.Control 

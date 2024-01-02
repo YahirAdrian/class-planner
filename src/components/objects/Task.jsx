@@ -9,7 +9,8 @@ export default function Task({setEditTaskModalShow, setTaskToEdit, removeTask, t
   const {id, name, subjectId, deadline, important, completed} = task;
   const [checked, setChecked] = useState(completed)
   const {subjects} = useAgenda();
-  const subjectName = subjects.filter(subject => subject.id === subjectId)[0].name
+  const {name : subjectName, colorId} = subjects.filter(subject => subject.id === subjectId)[0]
+
 
   const {tasks} = useAgenda()
 
@@ -47,7 +48,7 @@ export default function Task({setEditTaskModalShow, setTaskToEdit, removeTask, t
                 important == true && <span className="mx-2 fw-bold text-danger">!</span>
               }
               
-              <span className={`text-subject-${subjectId}`}>
+              <span className={`text-subject-${colorId}`}>
                 <span className="bullet me-2">o</span>
                 {subjectName}
                 </span>
