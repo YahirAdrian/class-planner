@@ -43,27 +43,18 @@ export default function Agenda() {
 
 
   // Current subject State
-  const [currentSubjectId, setCurrentSubjectId] = useState("1")
+  console.log(subjects[0].id)
+  const [currentSubjectId, setCurrentSubjectId] = useState(subjects[0].id !== undefined ? subjects[0].id : '1')
   const currentSubject = subjects.filter(subject => subject.id === currentSubjectId)[0]
-  
+  console.log(currentSubjectId)
   const tasksOfSubject = tasks.filter(task=> task.subjectId === currentSubject.id)
   const notesOfSubject = notes.filter(note => note.subjectId === currentSubject.id)
-  
-  
-  
-  
   
   const createTaskSubject= ()=>{
     console.log("New task for subject")
   }
   
-  const editTaskSubject= ()=>{
-    console.log("Edit task for subject")
-  }
-  
-  const createNoteSubject= ()=>{
-    console.log("New note for subject")
-  }
+
   return (
     <>
       <div>
@@ -86,8 +77,8 @@ export default function Agenda() {
                 <button type="button" className="bg-transparent border-0  me-3" title="Edit subject" onClick={()=> setEditSubjectModalShow(true)}>
                   <Image src={editIcon} width={24} height={24} alt="Edit icon"/>
                 </button>
-                <button type="button" className="bg-transparent border-0   me-3" title="Remove subject" onClick={()=> actions.removeSubject(currentSubjectId)}>
-                  <Image src={removeIcon} width={24} height={24} alt="Edit icon"/>
+                <button type="button" className="bg-transparent border-0   me-3" title="Remove subject" onClick={()=> removeSubject(currentSubjectId)}>
+                  <Image src={removeIcon} width={24} height={24} alt="Remove icon"/>
                 </button>
               </div>
             </div>
@@ -130,7 +121,7 @@ export default function Agenda() {
         <SubjectForm 
           form={'edit'}
           currentSubject={currentSubject}
-          action={actions.editSubject}
+          action={editSubject}
         />
       </ModalForm>
 
@@ -193,12 +184,39 @@ export default function Agenda() {
     const subjectName = e.target[0].value
     const colorId = e.target[1].value
   
-    new Subject(subjectName, colorId)
+    new Subject(subjectName, colorId).create()
   
     setSubjects(getParsedLS('subjects'))
     setSubjectModalShow(false)
   
   }
 
+  function editSubject(e){
+    e.preventDefault()
+
+    const newName = e.target[0].value
+    const newColorId = e.target[1].value
+    const subjectId = e.target[2].value
+
+    Subject.edit(subjectId, newName, newColorId)
+
+    setSubjects(getParsedLS('subjects'))
+    setEditSubjectModalShow(false)
+  }
+
   
+  function removeSubject(id){
+  if(confirm('Are you sure to delete this subject? With this action all subjects, notes, and schedule associated to this subject will be removed. This action cannot be undone.')){
+    const message = Subject.remove(id)
+    if(message !== true){
+      alert(message)
+    }
+  
+    // Update list
+    setSubjects(getParsedLS('subjects'))
+    setCurrentSubjectId(subjects[0].id)
+  }
+}
+
+
 }

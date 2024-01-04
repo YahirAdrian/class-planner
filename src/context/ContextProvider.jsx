@@ -28,7 +28,7 @@ const ContextProvider = ({children}) =>{
 
 
     // Sates of the app models
-    const [subjects, setSubjects] = useState(getParsedLS('subjects') !== null ? getParsedLS('subjects'): new Subject("Subject 1", "1", true))
+    const [subjects, setSubjects] = useState(getParsedLS('subjects') !== null ? getParsedLS('subjects'): new Subject("Subject 1", "1", true).create())
     const userData = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : userInitialValue;
     const notes = localStorage.getItem('notes') !== null ? JSON.parse(localStorage.getItem('notes')) : [] ;
     const tasks = localStorage.getItem('tasks') !== null ? JSON.parse(localStorage.getItem('tasks'))  : [];
@@ -95,40 +95,6 @@ const ContextProvider = ({children}) =>{
 
 
     // Edit functions
-
-    const editSubject = e=>{
-        e.preventDefault()
-
-        const newName = e.target[0].value
-        const newColorId = e.target[1].value
-        const subjectId = e.target[2].value
-        let subjectIndex = 0;
-        const subjectToEdit = subjects.filter((subject, index) => {
-            if(subject.id === subjectId){
-                subject.originalIndex = index
-                return subject
-            }
-        })[0]
-        // Validate the subject Id and color
-        if(notEmpty(newName) && subjectToEdit.id !== undefined && !isNaN(newColorId)){ //Validate subjectName and ColorId
-            
-            // Replace the values
-            const updatedSubject = {
-                id: subjectToEdit.id,
-                name: newName,
-                colorId: newColorId,
-                schedule: subjectToEdit.schedule
-            }
-
-            // Update the subject in the array
-            subjects[subjectToEdit.originalIndex] = updatedSubject
-
-            localStorage.setItem('subjects', JSON.stringify(subjects))
-            location.reload()
-        }else{
-            alert('Oops there was a problem while editing the subject Try not using symbols or empty values.')
-        }
-    }
 
     const editTask = e =>{
         e.preventDefault()
@@ -201,19 +167,6 @@ const ContextProvider = ({children}) =>{
 
     }
 
-    const removeSubject = subjectId =>{
-        const subjectToRemove = subjects.filter(subject => (subject.id === subjectId))[0]
-
-        if(subjectToRemove !== undefined){
-            if(confirm('Are you sure to delete this subject? With this action all subjects, notes, and schedule associated to this subject will be removed. This action cannot be undone.')){
-                // Delete the subject
-                const newSubjects = subjects.filter(subject => (subject !== subjectId))
-                localStorage.setItem('subjects', JSON.stringify(newSubjects))
-                location.reload()
-            }
-        }
-    }
-
     return(
         <AppContext.Provider
             value={{
@@ -226,10 +179,7 @@ const ContextProvider = ({children}) =>{
                 actions:{
                     addNote,
                     addTask,
-                    editSubject,
-                    editNote,
                     editTask,
-                    removeSubject,
                     removeNote
                 }
             }}
