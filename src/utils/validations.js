@@ -16,7 +16,12 @@ function notEmpty(value){
     return value.trim() !== ''
 }
 
+function isDateValid(dateStr) {
+    const dateObj = new Date(dateStr);
+    return !isNaN(dateObj);
+  }
 export {
     notEmptyAndSymbols,
-    notEmpty
+    notEmpty,
+    isDateValid
 }

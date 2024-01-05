@@ -4,10 +4,10 @@ import editIcon from '../../assets/icons/edit-white.svg'
 import removeIcon from '../../assets/icons/remove-white.svg'
 import useAgenda from '../../hooks/useContext';
 
-export default function Note({note, setEditNoteModalShow, setNoteToEdit}) {
+export default function Note({note, setEditNoteModalShow, setNoteToEdit, removeNote}) {
   const {id, title, content, createdAt, subjectId} = note;
 
-  const {subjects, actions} = useAgenda()
+  const {subjects} = useAgenda()
   const noteColor = subjects.filter(subject => (subject.id === subjectId))[0].colorId
 
   return (
@@ -30,7 +30,7 @@ export default function Note({note, setEditNoteModalShow, setNoteToEdit}) {
           </button>
         }
 
-        <button type="button" className="bg-transparent border-0 " title="Remove task" onClick={actions.removeNote}>
+        <button type="button" className="bg-transparent border-0 " title="Remove task" onClick={()=> removeNote(id)}>
           <Image src={removeIcon} width={24} height={24} alt="Remove icon"/>
         </button>
         </div>

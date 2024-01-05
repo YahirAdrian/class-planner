@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Image } from "react-bootstrap"
+import { getParsedLS } from "../utils/functions"
 
 import SubjectBar from "../components/agenda/SubjectBar"
 import Notes from "../components/agenda/Notes"
@@ -7,7 +8,6 @@ import Tasks from "../components/agenda/Tasks"
 import ScheduleAgenda from "../components/agenda/ScheduleAgenda"
 
 import ModalForm from '../components/ModalForm'
-import NewSubjectForm from "../components/forms/SubjectForm"
 import TaskForm from '../components/forms/TaskForm'
 import NoteForm from "../components/forms/NoteForm"
 
@@ -20,11 +20,12 @@ import SubjectForm from "../components/forms/SubjectForm"
 
 // Models 
 import Subject from "../models/Subject"
-import { getParsedLS } from "../utils/functions"
+import Task from "../models/Task"
+import Note from "../models/Note"
 
 export default function Agenda() {
 
-  const {subjects, setSubjects, notes, tasks,
+  const {subjects, setSubjects, notes, setNotes, tasks, setTasks,
           actions
         } = useAgenda()
 
@@ -43,13 +44,12 @@ export default function Agenda() {
 
 
   // Current subject State
-  console.log(subjects[0].id)
   const [currentSubjectId, setCurrentSubjectId] = useState(subjects[0].id !== undefined ? subjects[0].id : '1')
   const currentSubject = subjects.filter(subject => subject.id === currentSubjectId)[0]
-  console.log(currentSubjectId)
   const tasksOfSubject = tasks.filter(task=> task.subjectId === currentSubject.id)
   const notesOfSubject = notes.filter(note => note.subjectId === currentSubject.id)
   
+
   const createTaskSubject= ()=>{
     console.log("New task for subject")
   }
@@ -87,12 +87,14 @@ export default function Agenda() {
               setNoteModalShow={setNoteModalShow}
               setEditNoteModalShow={setEditNoteModalShow}
               setNoteToEdit={setNoteToEdit}
+              removeNote={removeNote}
             />
             <Tasks 
               setTaskModalShow={setTaskModalShow}
               setEditTaskModalShow={setEditTaskModalShow}
               tasks={tasksOfSubject}
               setTaskToEdit={setTaskToEdit}
+              removeTask={removeTask}
             />
             <ScheduleAgenda
               subject={currentSubject}
@@ -132,7 +134,7 @@ export default function Agenda() {
         setModalShow={setTaskModalShow}
       >
         <TaskForm 
-          action={actions.addTask}
+          action={createTask}
           subjectId={currentSubjectId}
           formType="create"
         />
@@ -144,7 +146,7 @@ export default function Agenda() {
         setModalShow={setEditTaskModalShow}
       >
         <TaskForm 
-          action={actions.editTask}
+          action={editTask}
           subjectId={currentSubjectId}
           task={taskToEdit}
           formType="edit"
@@ -157,7 +159,7 @@ export default function Agenda() {
         setModalShow={setNoteModalShow}
       >
         <NoteForm
-          action={actions.addNote}
+          action={createNote}
           subjectId={currentSubjectId}
           formType="create"
         />
@@ -169,7 +171,7 @@ export default function Agenda() {
         setModalShow={setEditNoteModalShow}
       >
         <NoteForm
-          action={actions.editNote}
+          action={editNote}
           subjectId={currentSubjectId}
           formType="edit"
           note={noteToEdit}
@@ -206,17 +208,111 @@ export default function Agenda() {
 
   
   function removeSubject(id){
-  if(confirm('Are you sure to delete this subject? With this action all subjects, notes, and schedule associated to this subject will be removed. This action cannot be undone.')){
-    const message = Subject.remove(id)
-    if(message !== true){
+    if(confirm('Are you sure to delete this subject? With this action all subjects, notes, and schedule associated to this subject will be removed. This action cannot be undone.')){
+      const message = Subject.remove(id)
+      if(message !== true){
+        alert(message)
+      }
+    
+      // Update list
+      setSubjects(getParsedLS('subjects'))
+      setCurrentSubjectId(subjects[0].id)
+    }
+  }
+
+  function createTask(e){
+    e.preventDefault()
+
+    const subjectId = e.target[0].value
+    const taskName = e.target[1].value
+    const deadline = e.target[2].value
+    const important = e.target[3].value === 'true' ? true : false //Convert from string to boolean
+
+   new Task(taskName, subjectId, deadline, important).create()
+
+   setTasks(getParsedLS('tasks'))
+   setTaskModalShow(false)
+   setCurrentSubjectId(subjectId)
+   
+  }
+
+  function editTask(e){
+    e.preventDefault()
+    const subjectId = e.target[0].value
+    const taskName = e.target[1].value
+    const taskDue = e.target[2].value
+    const taskImportance = e.target[3].value === 'true' ? true : false
+    const taskId = e.target[4].value
+
+    const result = Task.edit(taskId, subjectId, taskName, taskDue, taskImportance)
+
+    if(result){
+      setTasks(getParsedLS('tasks'))
+      setEditTaskModalShow(false)
+      setCurrentSubjectId(subjectId)
+    }else{
+      alert(result)
+    }
+  }
+
+  function removeTask(id){
+    if(confirm('Are you sure to remove this task? This action cannot be undone')){
+      const message = Task.remove(id)
+      if(message !== true){
+        alert(message)
+      }
+    
+      // Update list
+      setTasks(getParsedLS('tasks'))
+    }
+  }
+
+  function createNote(e){
+    e.preventDefault()
+    // Get the data from the form
+    const subjectId = e.target[0].value
+    const noteTitle = e.target[1].value
+    const noteBody = e.target[2].value
+
+    const message = new Note(subjectId, noteTitle, noteBody).create()
+
+    if(message){
+      
+      setCurrentSubjectId(subjectId)
+      setNoteModalShow(false)
+      setNotes(getParsedLS('notes'))
+    }else{
       alert(message)
     }
-  
-    // Update list
-    setSubjects(getParsedLS('subjects'))
-    setCurrentSubjectId(subjects[0].id)
   }
-}
 
+  function editNote(e){
+    e.preventDefault()
+    const subjectId = e.target[0].value
+    const noteTitle = e.target[1].value
+    const noteContent = e.target[2].value
+    const noteId = e.target[3].value
 
+    const result  = Note.edit(noteId, subjectId, noteTitle,noteContent)
+
+    if(result){
+      setEditNoteModalShow(false)
+      setCurrentSubjectId(subjectId)
+      setNotes(getParsedLS('notes'))
+    }else{
+      alert(message)
+    }
+  }
+
+  function removeNote(id){
+    if(confirm('Are you sure to remove this note? This action cannot be undone')){
+      const message = Note.remove(id)
+      if(message !== true){
+        alert(message)
+      }
+    
+      // Update list
+      setNotes(getParsedLS('notes'))
+    }
+  }
 }

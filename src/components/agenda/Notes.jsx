@@ -1,7 +1,7 @@
 import Note from "../objects/Note"
 
 
-export default function Notes({notes, setNoteModalShow, setEditNoteModalShow, setNoteToEdit}) {
+export default function Notes({notes, setNoteModalShow, setEditNoteModalShow, setNoteToEdit, removeNote}) {
 
 
   return (
@@ -19,6 +19,7 @@ export default function Notes({notes, setNoteModalShow, setEditNoteModalShow, se
                 note={note}
                 setEditNoteModalShow={setEditNoteModalShow}
                 setNoteToEdit={setNoteToEdit}
+                removeNote={removeNote}
               />
             ))
           :

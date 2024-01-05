@@ -62,7 +62,7 @@ export default function Task({setEditTaskModalShow, setTaskToEdit, removeTask, t
               }}>
                 <Image src={editIcon} width={24} height={24} alt="Edit icon"/>
             </button>
-            <button type="button" className="bg-transparent border-0 " title="Remove task" onClick={removeTask}>
+            <button type="button" className="bg-transparent border-0 " title="Remove task" onClick={()=> removeTask(id)}>
                 <Image src={removeIcon} width={24} height={24} alt="Remove icon"/>
             </button>
         </div>

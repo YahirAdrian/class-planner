@@ -30,8 +30,8 @@ const ContextProvider = ({children}) =>{
     // Sates of the app models
     const [subjects, setSubjects] = useState(getParsedLS('subjects') !== null ? getParsedLS('subjects'): new Subject("Subject 1", "1", true).create())
     const userData = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : userInitialValue;
-    const notes = localStorage.getItem('notes') !== null ? JSON.parse(localStorage.getItem('notes')) : [] ;
-    const tasks = localStorage.getItem('tasks') !== null ? JSON.parse(localStorage.getItem('tasks'))  : [];
+    const [notes, setNotes] = useState(localStorage.getItem('notes') !== null ? JSON.parse(localStorage.getItem('notes')) : []) ;
+    const [tasks, setTasks] = useState(localStorage.getItem('tasks') !== null ? JSON.parse(localStorage.getItem('tasks'))  : []);
     const events = localStorage.getItem('events') !== null ? JSON.parse(localStorage.getItem('events'))  : [];
 
     const addNote = (e)=>{
@@ -61,75 +61,11 @@ const ContextProvider = ({children}) =>{
         }
         
     }
-    
-    const addTask = e =>{
-        console.log('task')
-        e.preventDefault()
-        // Get the data from the form
-        const subjectId = e.target[0].value
-        const taskName = e.target[1].value
-        const deadline = e.target[2].value
-        const important = e.target[3].value === 'true' ? true : false //Convert from string to boolean
-        
-        if(notEmpty(taskName)){
-            // Create the task object
-            const newTask = {
-                id: generateId('task'),
-                subjectId,
-                name: taskName,
-                deadline,
-                important,
-                completed: false
-            }
-
-            
-            // Add the task to localstorage and then reload
-            localStorage.setItem('tasks', JSON.stringify([...tasks, newTask]))
-            location.reload()
-        
-        }else{
-            alert('Cannot create the task. Try not using symbols or empty values.')
-        }
-
-    }
 
 
     // Edit functions
 
-    const editTask = e =>{
-        e.preventDefault()
-        const subjectId = e.target[0].value
-        const taskName = e.target[1].value
-        const taskDue = e.target[2].value
-        const taskImportance = e.target[3].value === 'true' ? true : false
-        const taskId = e.target[4].value
-        let originalIndex
-
-        const taskToEdit = tasks.filter((task, index) => {
-            if(task.id === taskId){
-                originalIndex = index
-                return task
-            }
-        })[0]
-
-        if(notEmpty(subjectId) && notEmpty(taskName) && notEmpty(taskDue) && notEmpty(taskId)){
-            const updatedTask = {
-                id: taskToEdit.id,
-                subjectId,
-                name: taskName,
-                deadline: taskDue,
-                important: taskImportance,
-                completed: taskToEdit.completed
-            }
-
-            tasks[originalIndex] = updatedTask
-            localStorage.setItem('tasks', JSON.stringify(tasks))
-            location.reload()
-        }else{
-            alert('Oops there was a problem while editing the task Try not using symbols or empty values.')
-        }
-    }
-
+    
     const editNote =  e =>{
         e.preventDefault()
         const subjectId = e.target[0].value
@@ -172,14 +108,14 @@ const ContextProvider = ({children}) =>{
             value={{
                 userData,
                 notes,
+                setNotes,
                 subjects,
                 setSubjects,
                 tasks,
+                setTasks,
                 events,
                 actions:{
                     addNote,
-                    addTask,
-                    editTask,
                     removeNote
                 }
             }}
