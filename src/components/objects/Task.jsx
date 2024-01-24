@@ -35,7 +35,7 @@ export default function Task({setEditTaskModalShow, setTaskToEdit, removeTask, t
     <div className='task mb-3 p-2 p-md-3 d-flex align-items-center justify-content-between' data-id={id}>
     
       <div>
-        <input className='me-2' type="checkbox" title={`Complete task: ${name}`} id={`checkbox-task-${id}`} checked={checked} onChange={()=> completeTask(id)}/>
+        <input className='me-2' type="checkbox" title={`Complete task: ${name}`} id={`checkbox-task-${id}`} defaultChecked={checked}  onChange={()=> completeTask(id)}/>
         <label htmlFor={`checkbox-task-${id}`} className="mb-0 d-in">{name}</label>
       </div>
 

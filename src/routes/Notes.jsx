@@ -5,6 +5,10 @@ import Note from '../components/objects/Note'
 import useAgenda from '../hooks/useContext'
 import NoteForm from "../components/forms/NoteForm"
 
+import { getParsedLS } from "../utils/functions"
+
+import {default as NoteModel} from "../models/Note"
+
 export default function Calendar() {
 
   // State for modal
@@ -13,11 +17,7 @@ export default function Calendar() {
 
   const[noteToEdit, setNoteToEdit] = useState({})
 
-  const {notes, actions} = useAgenda();
-
-  const removeNote = ()=>{
-    confirm("Are you sure to delete this note?")
-  }
+  const {notes, setNotes} = useAgenda();
 
   return (
     <>
@@ -46,7 +46,7 @@ export default function Calendar() {
         setModalShow={setModalShow}
         >
         <NoteForm
-          action={actions.addNote}
+          action={createNote}
           formType="create"
         />
       </ModalForm>
@@ -57,7 +57,7 @@ export default function Calendar() {
         setModalShow={setEditNoteModalShow}
         >
         <NoteForm
-          action={actions.editNote}
+          action={editNote}
           formType="edit"
           subjectId={noteToEdit.subjectId}
           note={noteToEdit}
@@ -65,4 +65,51 @@ export default function Calendar() {
       </ModalForm>
     </>
   )
+
+  function removeNote(id){
+    if(confirm('Are you sure to remove this note? This action cannot be undone')){
+      const message = NoteModel.remove(id)
+      if(message !== true){
+        alert(message)
+      }
+    
+      // Update list
+      setNotes(getParsedLS('notes'))
+    }
+  }
+
+  function createNote(e){
+    e.preventDefault()
+    // Get the data from the form
+    const subjectId = e.target[0].value
+    const noteTitle = e.target[1].value
+    const noteBody = e.target[2].value
+
+    const message = new NoteModel(subjectId, noteTitle, noteBody).create()
+
+    if(message){
+      
+      setModalShow(false)
+      setNotes(getParsedLS('notes'))
+    }else{
+      alert(message)
+    }
+  }
+
+  function editNote(e){
+    e.preventDefault()
+    const subjectId = e.target[0].value
+    const noteTitle = e.target[1].value
+    const noteContent = e.target[2].value
+    const noteId = e.target[3].value
+
+    const result  = NoteModel.edit(noteId, subjectId, noteTitle,noteContent)
+
+    if(result){
+      setEditNoteModalShow(false)
+      setNotes(getParsedLS('notes'))
+    }else{
+      alert(message)
+    }
+  }
 }

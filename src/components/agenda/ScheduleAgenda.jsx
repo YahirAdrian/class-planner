@@ -4,9 +4,11 @@ import { Link } from "react-router-dom"
 import ScheduleItem from "../objects/ScheduleItem"
 
 import settingsIcon from '../../assets/icons/settings-primary.svg'
+import editIcon from '../../assets/icons/edit.svg'
+
 import { daysOfTheWeekEnglish } from "../../utils/constants"
 
-export default function ScheduleAgenda({subject, subjects}) {
+export default function ScheduleAgenda({subject, subjects, setModalScheduleShow}) {
 
   let schedule, todaySchedule;
   if(subject != undefined){
@@ -19,10 +21,17 @@ export default function ScheduleAgenda({subject, subjects}) {
       <div className="heading-box d-flex justify-content-between mb-4">
         <h3>Schedule</h3>
         <Link to='/schedule'>
-          <button type='button' className='btn-link' title='Edit schedule'>
-            <Image width={24} height={24} src={settingsIcon} alt="Settings icon"/>
-            Edit schedule
-          </button>
+
+            {setModalScheduleShow === undefined ? 
+              <button type='button' className='btn-link' title='Edit schedule'>
+                <Image width={24} height={24} src={settingsIcon} alt="Settings icon"/>
+                Edit schedule
+              </button>
+              :
+              <button type="button" className='btn-link bg-transparent  ' title='Edit schedule for subject 1' onClick={()=> setModalScheduleShow(true)}>
+                <Image width={24} height={24} src={editIcon} alt='Edit icon' />
+              </button>
+            }
         </Link>
       </div>
 

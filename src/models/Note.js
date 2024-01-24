@@ -63,7 +63,6 @@ class Note{
     }
 
     static remove(id){
-        console.log(id)
         if(notEmpty(id)){
 
             const notes = getParsedLS('notes')

@@ -8,6 +8,10 @@ import TaskForm from '../components/forms/TaskForm';
 
 import useAgenda from '../hooks/useContext';
 
+import { getParsedLS } from '../utils/functions';
+
+import {default as TaskModel} from '../models/Task';
+
 export default function Tasks() {
 
   // States for modal
@@ -17,29 +21,10 @@ export default function Tasks() {
   const[taskToEdit, setTaskToEdit] = useState({})
 
   // Get the tasks from the hook
-  const {tasks, actions} = useAgenda()
+  const {tasks, setTasks} = useAgenda()
 
   const nextTasks = getNextTasks(tasks)
   const remainingTasks = getRemainingTasks(tasks, nextTasks)
-
-  // Task actions
-  const addNewTask = ()=>{
-    console.log("New Task")
-  }
-  
-  const editTask = ()=>{
-    console.log("Edit Task")
-    
-  }
-  
-  const removeTask = ()=>{
-    confirm("Are you sure to delete this task?")
-
-  }
-
-  // Filter the tasks of today
-  
-  // Filter the tasks by subject
 
   return (
     <>
@@ -88,7 +73,6 @@ export default function Tasks() {
               <option value="1">Date</option>
               <option value="2">Subject</option>
               <option value="3">Importance</option>
-              <option value="3">Progress</option>
             </select>
           </div>
           
@@ -113,7 +97,7 @@ export default function Tasks() {
         heading="New task"
       >
         <TaskForm 
-          action={actions.addTask}
+          action={createTask}
           formType="create"
           />
       </ModalForm>
@@ -125,13 +109,59 @@ export default function Tasks() {
         >
         <TaskForm
           formType="edit"
-          action={actions.editTask}
+          action={editTask}
           task={taskToEdit}
           subjectId={taskToEdit.subjectId}
          />
       </ModalForm>
     </>
   )
+
+  // Task actions CRUD ACTIONS
+  function createTask(e){
+    e.preventDefault()
+  
+    const subjectId = e.target[0].value
+    const taskName = e.target[1].value
+    const deadline = e.target[2].value
+    const important = e.target[3].value === 'true' ? true : false //Convert from string to boolean
+  
+   new TaskModel(taskName, subjectId, deadline, important).create()
+  
+   setTasks(getParsedLS('tasks'))
+   setNewTaskModalShow(false)
+   
+  }
+  
+  function editTask(e){
+    e.preventDefault()
+    const subjectId = e.target[0].value
+    const taskName = e.target[1].value
+    const taskDue = e.target[2].value
+    const taskImportance = e.target[3].value === 'true' ? true : false
+    const taskId = e.target[4].value
+  
+    const result = TaskModel.edit(taskId, subjectId, taskName, taskDue, taskImportance)
+  
+    if(result){
+      setTasks(getParsedLS('tasks'))
+      setEditTaskModalShow(false)
+    }else{
+      alert(result)
+    }
+  }
+  
+  function removeTask(id){
+    if(confirm('Are you sure to remove this task? This action cannot be undone')){
+      const message = TaskModel.remove(id)
+      if(message !== true){
+        alert(message)
+      }
+    
+      // Update list
+      setTasks(getParsedLS('tasks'))
+    }
+  }
 }
 
 function getNextTasks(tasks){
@@ -161,3 +191,4 @@ function getRemainingTasks(tasks, nextTasks){
 
   return resultArray;
 }
+

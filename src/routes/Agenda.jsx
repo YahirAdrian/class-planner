@@ -25,8 +25,7 @@ import Note from "../models/Note"
 
 export default function Agenda() {
 
-  const {subjects, setSubjects, notes, setNotes, tasks, setTasks,
-          actions
+  const {subjects, setSubjects, notes, setNotes, tasks, setTasks
         } = useAgenda()
 
   // Create states for modal

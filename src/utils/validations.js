@@ -1,3 +1,5 @@
+import moment from "moment";
+
 function notEmptyAndSymbols(value){
     let valid = true;
     const regex = /^[a-zA-Z0-9 ]+$/;
@@ -20,8 +22,28 @@ function isDateValid(dateStr) {
     const dateObj = new Date(dateStr);
     return !isNaN(dateObj);
   }
+
+
+function validDate(date){
+    return moment(date, "YYYY-MM-DD", true).isValid()
+}
+function validDateOrEmpty(date){
+    return(moment(date, "YYYY-MM-DD", true).isValid() || !notEmpty(date))
+}
+
+function validTimeOrEmpty(time){
+    return true
+}
+
+function validTime(time){
+    return (moment(time, "HH:MM", true).isValid())
+}
 export {
     notEmptyAndSymbols,
     notEmpty,
-    isDateValid
+    isDateValid,
+    validDateOrEmpty,
+    validTimeOrEmpty,
+    validDate,
+    validTime
 }
