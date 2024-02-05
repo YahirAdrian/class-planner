@@ -9,8 +9,8 @@ export default function ScheduleItem({item, subject}) {
       <p className="subject-name mb-0">{subject.name}</p>
 
       <div className='me-xl-5 d-flex flex-column flex-md-row '>
-        <span>{daysOfTheWeekEnglish[item.day-1]}</span>
-        <span className="bullet mx-2 d-none d-md-block">o</span>
+        <span className='fw-bold'>{daysOfTheWeekEnglish[item.dayOfWeek-1]}</span>
+        <span className="bullet mx-2 d-none d-md-block">&#9635;</span>
         <span> {item.timeStart} - {item.timeEnd}</span>
       </div>
     </div>

@@ -8,13 +8,13 @@ import editIcon from '../../assets/icons/edit.svg'
 
 import { daysOfTheWeekEnglish } from "../../utils/constants"
 
-export default function ScheduleAgenda({subject, subjects, setModalScheduleShow}) {
-
+export default function ScheduleAgenda({subject, subjects, setModalScheduleShow, scheduleAgenda}) {
   let schedule, todaySchedule;
   if(subject != undefined){
-    schedule = subject.schedule
+    const scheduleForSubject = scheduleAgenda
+    schedule = scheduleAgenda
   }else{
-    todaySchedule = getScheduleforToday(subjects)
+    todaySchedule = getScheduleforToday(scheduleAgenda)
   }
   return (
     <section className="section-box mx-0">
@@ -66,15 +66,15 @@ export default function ScheduleAgenda({subject, subjects, setModalScheduleShow}
   )
 }
 
-function getScheduleforToday(subjects){
+function getScheduleforToday(schedule){
 
   // Get all the schedule from all subjects
   const schedules = []
-  subjects.forEach(subject =>{
-    subject.schedule.forEach(item=>{
+    schedule.forEach(item=>{
       const scheduleItem = {
-        subject: subject,
-        day: item.day,
+        id: item.id,
+        subject: item.subject,
+        day: item.dayOfWeek,
         timeStart: item.timeStart,
         timeEnd: item.timeEnd
       }
@@ -82,7 +82,6 @@ function getScheduleforToday(subjects){
       schedules.push(scheduleItem)
 
     })
-  })
 
   // Filter the schedule only for the ones of this day
 

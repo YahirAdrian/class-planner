@@ -1,16 +1,25 @@
-import { updateLS } from "../utils/functions"
+import { generateId, getParsedLS, updateLS } from "../utils/functions"
 import { notEmpty, validTime } from "../utils/validations"
 
 class Schedule{
-    constructor(subjectId, events=[]){
+    constructor(subjectId, dayOfWeek, timeStart, timeEnd){
+        this.id = generateId('schedule')
         this.subjectId = subjectId
-        this.events = events
+        this.dayOfWeek = dayOfWeek
+        this.timeStart = timeStart
+        this.timeEnd = timeEnd
     }
 
-    addEvent(event){
-        if(this.validateEvent(event)){
+    addEvent(){
+        if(this.validateSchedule(this)){
 
-            this.events.push(event)
+            const scheduleItems = getParsedLS('schedule')
+
+            if(scheduleItems !== null){
+                updateLS('schedule', [...scheduleItems, this])
+            }else{
+                updateLS('schedule', [this])
+            }
         }
 
         return "There was a problem while creating the event"
@@ -42,7 +51,7 @@ class Schedule{
 
         if(eventToEdit !== undefined && this.validateEvent(updatedEvent)){
             // Update the event
-            eventToEdit.day = updatedEvent.day
+            eventToEdit.dayOfWeek = updatedEvent.dayOfWeek
             eventToEdit.timeStart = updatedEvent.timeStart
             eventToEdit.timeEnd = updatedEvent.timeEnd
 
@@ -55,10 +64,10 @@ class Schedule{
         
     }
 
-    validateEvent(event){
-        const {id, day, timeStart, timeEnd} = event
+    validateSchedule(event){
+        const {id, dayOfWeek, timeStart, timeEnd} = event
         if(notEmpty(id) &&
-            (day >=0 && day <=4) &&
+            (dayOfWeek >=0 && dayOfWeek <=6) &&
             validTime(timeStart) &&
             validTime(timeEnd)
         ){

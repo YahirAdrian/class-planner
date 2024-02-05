@@ -26,7 +26,7 @@ export default function Schedule() {
 
   const [currentEvent, setCurrentEvent] = useState({})
 
-  const {subjects, setSubjects, events, setEvents} = useAgenda()
+  const {subjects, setSubjects, events, setEvents, schedule} = useAgenda()
 
   const [currentSubjectId, setCurrentSubjectId] = useState("1")
   const currentSubject = subjects.filter(subject => subject.id === currentSubjectId)[0]
@@ -59,6 +59,7 @@ export default function Schedule() {
         <ScheduleAgenda
           subject={currentSubject}
           setModalScheduleShow={setModalScheduleShow}
+          scheduleAgenda={schedule}
         />
       </section>
 

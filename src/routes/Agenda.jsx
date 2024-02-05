@@ -25,7 +25,7 @@ import Note from "../models/Note"
 
 export default function Agenda() {
 
-  const {subjects, setSubjects, notes, setNotes, tasks, setTasks
+  const {subjects, setSubjects, notes, setNotes, tasks, setTasks, schedule
         } = useAgenda()
 
   // Create states for modal
@@ -97,6 +97,7 @@ export default function Agenda() {
             />
             <ScheduleAgenda
               subject={currentSubject}
+              scheduleAgenda={schedule}
             />
           </main>
         </div>

@@ -1,11 +1,11 @@
-import Schedule from "../components/agenda/ScheduleAgenda"
+import ScheduleAgenda from "../components/agenda/ScheduleAgenda"
 import Notes from "../components/agenda/Notes"
 import Tasks from "../components/agenda/Tasks"
 import useAgenda from "../hooks/useContext"
 
 export default function Panel() {
 
-  const {userData, notes, subjects, tasks, events} = useAgenda()
+  const {userData, notes, subjects, tasks, event, schedule} = useAgenda()
 
   return (
     <>
@@ -13,8 +13,9 @@ export default function Panel() {
         <h2>Today</h2>
       </div>
 
-        <Schedule 
+        <ScheduleAgenda 
           subjects={subjects}
+          scheduleAgenda={schedule}
         />
 
         <Tasks 

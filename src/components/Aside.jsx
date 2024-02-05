@@ -25,7 +25,7 @@ export default function Aside({show, handleClose}) {
             <Offcanvas.Body className='p-0 flex-md-column justify-content-between h-100'>
                 <div>
                     <div className="user-info  pt-3">
-                        <Link to='/settings' className='text-white text-decoration-none d-flex flex-column  align-items-center'>
+                        <Link to='/settings' className='text-white text-decoration-none d-flex flex-column  align-items-center' onClick={()=> handleClose()}>
                             <Image src={profilePicture} width={128} height={128} alt='Profile picture icon'/>
                             <p className="fs-5 ">Welcome</p>
                             <p className="fs-6">Yahir Adrian</p>
@@ -34,7 +34,7 @@ export default function Aside({show, handleClose}) {
                     </div>
 
                     <div className="actions-box bg-secondary-2 p-3 d-flex gap-3 mt-2 mb-3">
-                        <Link to={'/'} title='Go to panel'>
+                        <Link to={'/'} title='Go to panel' onClick={()=> handleClose()}>
                             <Image src={homeIcon} width={24} height={24} alt='Home icon'/>
                         </Link>
                         {/* <Image src={notificationsIcon} width={24} height={24} alt='Notifications icon'/> */}
@@ -44,22 +44,22 @@ export default function Aside({show, handleClose}) {
                         <ul 
                             className={`mb-0 p-3 border-secondary border ${pathname === '/agenda' ? 'bg-secondary-3' : 'bg-secondary-2'}`}
                         >
-                            <Link to={'/agenda'} className='text-white text-decoration-none fw-bold fs-4'>Agenda</Link>
+                            <Link to={'/agenda'} className='text-white text-decoration-none fw-bold fs-4' onClick={()=> handleClose()}>Agenda</Link>
                         </ul>
                         <ul 
                             className={`mb-0 p-3 border-secondary border ${pathname === '/tasks' ? 'bg-secondary-3' : 'bg-secondary-2'}`}
                         >
-                            <Link to={'/tasks'} className='text-white text-decoration-none fw-bold fs-4'>Tasks</Link>
+                            <Link to={'/tasks'} className='text-white text-decoration-none fw-bold fs-4' onClick={()=> handleClose()}>Tasks</Link>
                         </ul>
                         <ul 
                             className={`mb-0 p-3 border-secondary border ${pathname === '/notes' ? 'bg-secondary-3' : 'bg-secondary-2'}`}
                         >
-                            <Link to={'/notes'} className='text-white text-decoration-none fw-bold fs-4'>Notes</Link>
+                            <Link to={'/notes'} className='text-white text-decoration-none fw-bold fs-4' onClick={()=> handleClose()}>Notes</Link>
                         </ul>
                         <ul 
                             className={`mb-0 p-3 border-secondary border ${pathname === '/schedule' ? 'bg-secondary-3' : 'bg-secondary-2'}`}
                         >
-                            <Link to={'/schedule'} className='text-white text-decoration-none fw-bold fs-4'>Schedule</Link>
+                            <Link to={'/schedule'} className='text-white text-decoration-none fw-bold fs-4' onClick={()=> handleClose()}>Schedule</Link>
                         </ul>
                     </nav>
                 </div>
@@ -68,13 +68,13 @@ export default function Aside({show, handleClose}) {
 
 
                 <div className="aside-footer d-flex gap-3 bg-secondary p-2 align-items-center ">
-                    <Link to={'/settings'} title='Settings'>
+                    <Link to={'/settings'} title='Settings' onClick={()=> handleClose()}>
                         <Image src={settingsIcon} width={32} height={32} alt='Settings icon'></Image>
                     </Link>
-                    <Link to={'/about'} title='About'>
+                    <Link to={'/about'} title='About' onClick={()=> handleClose()}>
                         <Image src={infoIcon} width={32} height={32} alt='About info icon'></Image>
                     </Link>
-                    <Link to={'/logout'} title='Logout'>
+                    <Link to={'/logout'} title='Logout' onClick={()=> handleClose()}>
                         <Image src={logoutIcon} width={32} height={24} alt='Logut icon'></Image>
                     </Link>
                 </div>

@@ -36,7 +36,16 @@ function validTimeOrEmpty(time){
 }
 
 function validTime(time){
-    return (moment(time, "HH:MM", true).isValid())
+    // Define the expected time format
+    const format = 'HH:mm';
+
+    // Try to parse the input time using the specified format
+    const parsedTime = moment(time, format);
+
+    // Check if the parsed time is valid
+    const isValid = parsedTime.isValid();
+
+    return isValid;
 }
 export {
     notEmptyAndSymbols,

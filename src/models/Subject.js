@@ -6,7 +6,6 @@ class Subject{
         this.id = first === true ? '1' :  generateId('subject') // If it is the first subject created, it has the id 1
         this.name = name
         this.colorId = colorId
-        this.schedule = []
 
     }
     
@@ -71,10 +70,6 @@ class Subject{
         }else{
             return 'Invalid subject id to remove'
         }
-    }
-
-    editSchedule(id, schedule){
-        this.schedule = schedule
     }
 
     
