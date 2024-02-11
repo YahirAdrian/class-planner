@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "my-class-planner",
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
