@@ -1,26 +1,18 @@
 import { generateId, getParsedLS, updateLS } from '../utils/functions'
-import { notEmpty } from '../utils/validations'
+import { validDateOrEmpty, notEmpty } from '../utils/validations'
 import moment from 'moment'
 
 class Task{
     constructor(name, subjectId, deadline, important){
-        if((moment(deadline, "YYYY-MM-DD", true).isValid() || !notEmpty(deadline)) &&
-            notEmpty(name) && notEmpty(subjectId)
-        ){
-            this.id = generateId('task')
-            this.name = name
-            this.subjectId = subjectId
-            this.important = important
-            this.deadline = deadline
-            
-            return this
-        }else{
-            return 'Cannot create task. Invalid name, subject id or date format.'
-        }
+        this.id = generateId('task')
+        this.name = name
+        this.subjectId = subjectId
+        this.important = important
+        this.deadline = deadline
     }
 
     create(){
-        if((moment(this.deadline, "YYYY-MM-DD", true).isValid() || !notEmpty(this.deadline)) &&
+        if(validDateOrEmpty(this.deadline) &&
         notEmpty(this.name) && notEmpty(this.subjectId)){ //Validate subjectName and ColorId
             // Add the task to LS
             const tasks = getParsedLS('tasks')

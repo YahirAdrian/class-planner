@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 
 import SubjectSelect from '../components/SubjectSelect'
@@ -13,15 +13,18 @@ import { getParsedLS } from '../utils/functions';
 import {default as TaskModel} from '../models/Task';
 
 export default function Tasks() {
-
+  
+  const {tasks, setTasks, subjects} = useAgenda()
   // States for modal
   const [newTaskModalShow, setNewTaskModalShow] = useState(false);
   const [editTaskModalShow, setEditTaskModalShow] = useState(false)
 
+  const allSubjects = {id:'0', colorId: '0'}
   const[taskToEdit, setTaskToEdit] = useState({})
+  
+
 
   // Get the tasks from the hook
-  const {tasks, setTasks} = useAgenda()
 
   const nextTasks = getNextTasks(tasks)
   const remainingTasks = getRemainingTasks(tasks, nextTasks)
@@ -65,19 +68,7 @@ export default function Tasks() {
           <h3>All tasks</h3>
         </div>
 
-        <div className='d-flex justify-content-end align-items-center  gap-3 mb-4'>
-          <h4>Filters</h4>
-          <div className='d-flex flex-column'>
-            <label className='mb-2' htmlFor="order-by">Order by</label>
-            <select id="order-by">
-              <option value="1">Date</option>
-              <option value="2">Subject</option>
-              <option value="3">Importance</option>
-            </select>
-          </div>
-          
-          <SubjectSelect />
-        </div>
+        
         {remainingTasks.map(task=>(
           <Task 
             key={task.id}

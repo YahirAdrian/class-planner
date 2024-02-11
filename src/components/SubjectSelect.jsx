@@ -7,7 +7,8 @@ export default function SubjectSelect({currentSubject, currentSubjectId, setCurr
   return (
     <div className='d-flex flex-column'>
         <label className='mb-1' htmlFor="subject-filter">Subject</label>
-        <select className={`px-2 text-subject-${currentSubjectId}`} id="subject-filter" value={currentSubjectId} onChange={e=>setCurrentSubjectId(e.target.value)}>
+        
+        <select className={`px-2 text-subject-${currentSubject.colorId}`} id="subject-filter" value={currentSubjectId} onChange={e=>setCurrentSubjectId(e.target.value)}>
           {subjects.map((subject, i)=>(
             <option key={i} className={`text-subject-${subject.colorId}`} value={subject.id}>{subject.name}</option>
           ))}

@@ -1,0 +1,11 @@
+.transparent-input{
+    border: none;
+    background: none;
+    text-align: center;
+}
+
+.input-icon{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}

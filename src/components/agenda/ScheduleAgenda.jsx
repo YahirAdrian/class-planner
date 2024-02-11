@@ -7,12 +7,16 @@ import settingsIcon from '../../assets/icons/settings-primary.svg'
 import editIcon from '../../assets/icons/edit.svg'
 
 import { daysOfTheWeekEnglish } from "../../utils/constants"
+import useAgenda from "../../hooks/useContext"
 
 export default function ScheduleAgenda({subject, subjects, setModalScheduleShow, scheduleAgenda}) {
+  const {subjects : subjectList} = useAgenda()
+
   let schedule, todaySchedule;
   if(subject != undefined){
+    // If it comes from schedule page (/schedule)
     const scheduleForSubject = scheduleAgenda
-    schedule = scheduleAgenda
+    schedule = scheduleAgenda.filter(item => (item.subjectId === subject.id))
   }else{
     todaySchedule = getScheduleforToday(scheduleAgenda)
   }
@@ -37,7 +41,7 @@ export default function ScheduleAgenda({subject, subjects, setModalScheduleShow,
 
       <div className="schedule-box">
         {
-          (schedule !== undefined && schedule.length >0 )?
+          (schedule != undefined && schedule.length >0 )?
           schedule.map((item, i) =>(
 
             <ScheduleItem
@@ -57,45 +61,38 @@ export default function ScheduleAgenda({subject, subjects, setModalScheduleShow,
             ))
             :
             <div className="bg-gray-100 d-flex align-items-center justify-content-center ">
-              <p className="fw-bold">No classes or events scheduled for today</p>
-            </div>
+            <p className="fw-bold fs-3 p-5">No schedule defined for today</p>
+          </div>
         }
         
       </div>
     </section>
   )
-}
 
-function getScheduleforToday(schedule){
+  function getScheduleforToday(schedule){
 
-  // Get all the schedule from all subjects
-  const schedules = []
+    
+  
+    // Get all the schedule from all subjects
+    const scheduleItems = []
     schedule.forEach(item=>{
       const scheduleItem = {
         id: item.id,
-        subject: item.subject,
-        day: item.dayOfWeek,
+        subject: subjectList.filter(subject =>(item.subjectId === subject.id))[0],
+        dayOfWeek: item.dayOfWeek,
         timeStart: item.timeStart,
         timeEnd: item.timeEnd
       }
-
-      schedules.push(scheduleItem)
-
+  
+      scheduleItems.push(scheduleItem)
+  
     })
-
-  // Filter the schedule only for the ones of this day
-
-  const dayOfTheWeek = new Date().getDay()
-  const scheduleToday = []
-
-  schedules.forEach(schedule=>{
-    if(schedule.day === dayOfTheWeek){
-      scheduleToday.push(schedule)
-    }
-  })
-
-
-
-
-  return scheduleToday
+  
+    // Filter the schedule only for the ones of this day
+  
+    const dayOfTheWeek = new Date().getDay()-1
+    const scheduleToday = scheduleItems.filter(item=> (item.dayOfWeek == dayOfTheWeek))
+    return scheduleToday
+  }
 }
+

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Image, Form } from 'react-bootstrap'
 
 
 import ScheduleAgenda from '../components/agenda/ScheduleAgenda'
@@ -13,8 +12,6 @@ import useAgenda from '../hooks/useContext'
 
 import {default as EventModel} from '../models/Event'
 
-import { daysOfTheWeekEnglish } from '../utils/constants'
-import { notEmpty, validTimeOrEmpty } from '../utils/validations'
 import { getParsedLS } from '../utils/functions'
 
 export default function Schedule() {
@@ -125,12 +122,14 @@ export default function Schedule() {
       {/* Modal form to edit the schedule */}
 
       <ModalForm
-        heading="Edit schedule for subject 1"
+        heading={`Edit schedule for ${currentSubject.name}`}
         action={editSchedule}
         modalShow={modalScheduleShow}
-        setModalShow={setModalScheduleShow}>
+        setModalShow={setModalScheduleShow}
+        >
           <EditScheduleForm 
             currentSubject={currentSubject}
+            setModalShow={setModalScheduleShow}
           />
       </ModalForm>
     </>

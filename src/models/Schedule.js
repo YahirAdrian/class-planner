@@ -11,7 +11,7 @@ class Schedule{
     }
 
     addEvent(){
-        if(this.validateSchedule(this)){
+        if(this.validate(this)){
 
             const scheduleItems = getParsedLS('schedule')
 
@@ -64,7 +64,20 @@ class Schedule{
         
     }
 
-    validateSchedule(event){
+    static validateSchedule(event){
+        const {id, dayOfWeek, timeStart, timeEnd} = event
+        if(notEmpty(id) &&
+            (dayOfWeek >=0 && dayOfWeek <=6) &&
+            validTime(timeStart) &&
+            validTime(timeEnd)
+        ){
+            return true
+        }
+
+        return false
+    }
+
+    validate(event){
         const {id, dayOfWeek, timeStart, timeEnd} = event
         if(notEmpty(id) &&
             (dayOfWeek >=0 && dayOfWeek <=6) &&

@@ -6,14 +6,16 @@ import '../styles/aside.css'
 //Images
 import profilePicture from '../assets/icons/mdi_user.svg'
 import homeIcon from '../assets/icons/home.svg'
-import notificationsIcon from '../assets/icons/notifications.svg'
 import settingsIcon from '../assets/icons/settings.svg'
 import logoutIcon from '../assets/icons/logout.svg'
 import infoIcon from '../assets/icons/about.svg'
 
+import useAgenda from '../hooks/useContext'
+
 export default function Aside({show, handleClose}) {
 
     const {pathname} = useLocation()
+    const {userInfo} = useAgenda()
   return (
     <>
         <div className="box-canvas d-none d-lg-block"></div>
@@ -22,13 +24,13 @@ export default function Aside({show, handleClose}) {
                 <Offcanvas.Title>Actions</Offcanvas.Title>
             </Offcanvas.Header>
 
-            <Offcanvas.Body className='p-0 flex-md-column justify-content-between h-100'>
+            <Offcanvas.Body className='p-0 flex-md-column justify-content-between'>
                 <div>
                     <div className="user-info  pt-3">
                         <Link to='/settings' className='text-white text-decoration-none d-flex flex-column  align-items-center' onClick={()=> handleClose()}>
                             <Image src={profilePicture} width={128} height={128} alt='Profile picture icon'/>
                             <p className="fs-5 ">Welcome</p>
-                            <p className="fs-6">Yahir Adrian</p>
+                            <p className="fs-6">{userInfo.userName}</p>
 
                         </Link>
                     </div>
@@ -67,18 +69,19 @@ export default function Aside({show, handleClose}) {
 
 
 
-                <div className="aside-footer d-flex gap-3 bg-secondary p-2 align-items-center ">
-                    <Link to={'/settings'} title='Settings' onClick={()=> handleClose()}>
-                        <Image src={settingsIcon} width={32} height={32} alt='Settings icon'></Image>
-                    </Link>
-                    <Link to={'/about'} title='About' onClick={()=> handleClose()}>
-                        <Image src={infoIcon} width={32} height={32} alt='About info icon'></Image>
-                    </Link>
-                    <Link to={'/logout'} title='Logout' onClick={()=> handleClose()}>
-                        <Image src={logoutIcon} width={32} height={24} alt='Logut icon'></Image>
-                    </Link>
-                </div>
             </Offcanvas.Body>
+
+            <div className="aside-footer d-flex gap-3 bg-secondary p-2 align-items-center ">
+                <Link to={'/settings'} title='Settings' onClick={()=> handleClose()}>
+                    <Image src={settingsIcon} width={32} height={32} alt='Settings icon'></Image>
+                </Link>
+                <Link to={'/about'} title='About' onClick={()=> handleClose()}>
+                    <Image src={infoIcon} width={32} height={32} alt='About info icon'></Image>
+                </Link>
+                <Link to={'/logout'} title='Logout' onClick={()=> handleClose()}>
+                    <Image src={logoutIcon} width={32} height={24} alt='Logut icon'></Image>
+                </Link>
+            </div>
         </Offcanvas>
     </>
   )
